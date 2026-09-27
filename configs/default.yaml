@@ -1,0 +1,63 @@
+# Default System Configuration for Hybrid AI-NWP Multi-Model Blending
+
+app:
+  name: "Hybrid AI-NWP Forecast Blending System"
+  version: "0.1.0"
+  env: "development"
+  debug: true
+
+# Geospatial Domain Bounds: Indian Subcontinent & Surrounding Seas
+domain:
+  name: "India-SouthAsia"
+  min_lat: 6.0
+  max_lat: 38.5
+  min_lon: 68.0
+  max_lon: 98.5
+  spatial_resolution_deg: 0.25 # approx 27 km grid
+
+# Active Forecast Sources & Providers
+models:
+  nwp:
+    - id: "gfs"
+      name: "NOAA GFS (Global Forecast System)"
+      type: "physics_nwp"
+      native_resolution: 0.25
+      update_cycle_hours: 6
+    - id: "ecmwf"
+      name: "ECMWF IFS (Integrated Forecasting System)"
+      type: "physics_nwp"
+      native_resolution: 0.25
+      update_cycle_hours: 12
+  ai:
+    - id: "graphcast"
+      name: "DeepMind GraphCast"
+      type: "graph_neural_network"
+      native_resolution: 0.25
+      update_cycle_hours: 12
+    - id: "pangu"
+      name: "Pangu-Weather"
+      type: "3d_earth_transformer"
+      native_resolution: 0.25
+      update_cycle_hours: 12
+
+# Blending & Meta-Learner Parameters
+blending:
+  strategy: "adaptive_softmax" # Options: simple_mean, inverse_error, adaptive_softmax, quantile_regression
+  min_weight_floor: 0.05       # Prevent complete exclusion of valid physical models
+  lead_times_hours: [24, 48, 72, 96, 120, 144, 168]
+  rolling_skill_window_days: 14
+
+# Supported Variables
+variables:
+  - id: "precipitation"
+    name: "Total Precipitation"
+    unit: "mm/day"
+    blending_mode: "tweedie_constrained"
+  - id: "temperature_2m"
+    name: "2-Meter Surface Temperature"
+    unit: "degC"
+    blending_mode: "calibrated_linear"
+  - id: "wind_speed_10m"
+    name: "10-Meter Wind Speed"
+    unit: "km/h"
+    blending_mode: "vector_component"

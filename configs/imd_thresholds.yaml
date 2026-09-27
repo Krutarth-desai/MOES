@@ -1,0 +1,73 @@
+# Official India Meteorological Department (IMD) Severe Weather Thresholds
+
+rainfall:
+  units: "mm/24h"
+  categories:
+    no_rain:
+      min: 0.0
+      max: 0.0
+      severity: "green"
+    very_light_rain:
+      min: 0.1
+      max: 2.4
+      severity: "green"
+    light_rain:
+      min: 2.5
+      max: 15.5
+      severity: "green"
+    moderate_rain:
+      min: 15.6
+      max: 64.4
+      severity: "yellow"
+    heavy_rain:
+      min: 64.5
+      max: 115.5
+      severity: "orange"
+      action_code: "ALERT_BE_PREPARED"
+    very_heavy_rain:
+      min: 115.6
+      max: 204.4
+      severity: "orange"
+      action_code: "ALERT_BE_PREPARED"
+    extremely_heavy_rain:
+      min: 204.5
+      max: 9999.0
+      severity: "red"
+      action_code: "WARNING_TAKE_ACTION"
+
+temperature:
+  units: "degC"
+  plains:
+    heatwave_min_temp: 40.0
+    normal_departure_heatwave: 4.5
+    normal_departure_severe_heatwave: 6.4
+    absolute_heatwave: 45.0
+    absolute_severe_heatwave: 47.0
+  coastal:
+    heatwave_min_temp: 37.0
+    normal_departure_heatwave: 4.5
+  hills:
+    heatwave_min_temp: 30.0
+    normal_departure_heatwave: 4.5
+
+wind:
+  units: "km/h"
+  categories:
+    moderate_breeze:
+      min: 20.0
+      max: 38.0
+      severity: "green"
+    strong_breeze:
+      min: 39.0
+      max: 49.0
+      severity: "yellow"
+    gale_force:
+      min: 50.0
+      max: 74.0
+      severity: "orange"
+      action_code: "ALERT_ROUGH_SEAS_HIGH_WIND"
+    severe_gale_cyclonic:
+      min: 75.0
+      max: 999.0
+      severity: "red"
+      action_code: "WARNING_EXTREME_CYCLONIC_FORCE"
