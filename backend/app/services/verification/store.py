@@ -14,16 +14,26 @@ logger = logging.getLogger("moes.verification.store")
 SKILL_STORE_PATH = DATA_DIR / "processed" / "historical_skill_scores.json"
 
 
+_STORE_DEFAULT = object()
+
+
 class SkillScoreStore:
     """
     Persistent repository for historical model verification skill scores.
     Enables rapid hierarchical querying for adaptive multi-model weighting.
     """
 
-    def __init__(self, storage_path: Optional[Path] = None):
-        self.storage_path = storage_path or SKILL_STORE_PATH
+    def __init__(self, storage_path: Optional[Path] = _STORE_DEFAULT, in_memory: bool = False):
+        if storage_path is _STORE_DEFAULT:
+            self.storage_path = SKILL_STORE_PATH
+            self.in_memory = in_memory
+        else:
+            self.storage_path = storage_path
+            self.in_memory = in_memory or (storage_path is None)
+
         self._records: List[HistoricalSkillRecord] = []
-        self.load()
+        if not self.in_memory and self.storage_path:
+            self.load()
 
     def add_record(self, record: HistoricalSkillRecord):
         # Replace existing matching slice if present
@@ -34,8 +44,14 @@ class SkillScoreStore:
         self._records.append(record)
 
     def add_records(self, records: List[HistoricalSkillRecord]):
-        for r in records:
-            self.add_record(r)
+        if not records:
+            return
+        incoming_keys = {self._dimension_key(r.dimension) for r in records}
+        self._records = [
+            r for r in self._records
+            if self._dimension_key(r.dimension) not in incoming_keys
+        ]
+        self._records.extend(records)
         self.save()
 
     def get_all_records(self) -> List[HistoricalSkillRecord]:
@@ -123,6 +139,8 @@ class SkillScoreStore:
 
     def save(self):
         """Persist records to disk in structured JSON format."""
+        if self.in_memory or not self.storage_path:
+            return
         try:
             self.storage_path.parent.mkdir(parents=True, exist_ok=True)
             serializable = [r.model_dump(mode="json") for r in self._records]
@@ -134,7 +152,7 @@ class SkillScoreStore:
 
     def load(self):
         """Load records from disk if present."""
-        if not self.storage_path.exists():
+        if self.in_memory or not self.storage_path or not self.storage_path.exists():
             return
         try:
             with open(self.storage_path, mode="r", encoding="utf-8") as f:
@@ -147,11 +165,22 @@ class SkillScoreStore:
 
     def clear(self):
         self._records.clear()
-        if self.storage_path.exists():
+        if not self.in_memory and self.storage_path and self.storage_path.exists():
             try:
                 self.storage_path.unlink()
             except Exception:
                 pass
+
+    @staticmethod
+    def _dimension_key(s: MetricDimensionSlice) -> tuple:
+        return (
+            s.model_name.lower(),
+            s.variable,
+            s.region,
+            s.lead_time_hours,
+            s.season,
+            s.weather_regime,
+        )
 
     @staticmethod
     def _slices_match(s1: MetricDimensionSlice, s2: MetricDimensionSlice) -> bool:

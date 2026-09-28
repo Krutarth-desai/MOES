@@ -56,6 +56,7 @@ class BlendedForecastResult(BaseModel):
     models_rejected: List[str] = Field(default_factory=list, description="Models rejected due to physical boundary violations")
     weights_renormalized: bool = Field(default=False, description="Whether weights were dynamically re-scaled due to missing/rejected models")
     blending_method: BlendingMethod = Field(description="Mathematical blending technique utilized")
+    explanation: Optional[Dict[str, Any]] = Field(default=None, description="Concise machine-readable explanation of the adaptive weighting decision")
     created_at: datetime = Field(default_factory=datetime.now)
 
 

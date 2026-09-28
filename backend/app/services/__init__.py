@@ -6,8 +6,10 @@ from .regime_service import WeatherRegimeService
 from .extreme_service import ExtremeWeatherService
 from .verification_service import ForecastVerificationService
 from .weighting.engine import AdaptiveWeightEngine
+from .weighting.mapping import ModelWeightMappingEngine
 from .blending.engine import ForecastBlendingEngine
 from .backtesting.evaluator import BacktestEngine
+from .extremes.engine import ExtremeWeatherGuidanceEngine
 
 __all__ = [
     "BaseForecastProvider",
@@ -18,8 +20,11 @@ __all__ = [
     "ExtremeWeatherService",
     "ForecastVerificationService",
     "AdaptiveWeightEngine",
+    "ModelWeightMappingEngine",
     "ForecastBlendingEngine",
     "BacktestEngine",
+    "ExtremeWeatherGuidanceEngine",
 ]
+
 
 

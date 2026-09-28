@@ -18,6 +18,7 @@ from backend.app.services.blending.vector_math import (
 )
 from backend.app.services.simulated_provider import SimulatedForecastProvider
 from backend.app.services.weighting.engine import AdaptiveWeightEngine
+from backend.app.services.explainability.engine import ForecastExplainabilityEngine
 
 logger = logging.getLogger("moes.blending.engine")
 
@@ -68,10 +69,12 @@ class ForecastBlendingEngine:
         weight_engine: Optional[AdaptiveWeightEngine] = None,
         store: Optional[BlendedForecastStore] = None,
         provider: Optional[SimulatedForecastProvider] = None,
+        explainability_engine: Optional[ForecastExplainabilityEngine] = None,
     ):
         self.weight_engine = weight_engine or AdaptiveWeightEngine()
         self.store = store or BlendedForecastStore()
         self.provider = provider or SimulatedForecastProvider()
+        self.explainability_engine = explainability_engine or ForecastExplainabilityEngine(skill_store=self.weight_engine.skill_store)
 
     def blend(
         self,
@@ -122,7 +125,7 @@ class ForecastBlendingEngine:
 
         # 4. Retrieve or derive adaptive model weights
         configured_models = list(raw_forecasts.keys())
-        resolved_weights = self._resolve_model_weights(
+        resolved_weights, raw_weight_output = self._resolve_model_weights(
             models=configured_models,
             norm_var=norm_var,
             lead_time_hours=lead_time_hours,
@@ -158,7 +161,18 @@ class ForecastBlendingEngine:
                 renormalized_weights=renormalized_weights,
             )
 
-        # 7. Assemble BlendedForecastResult container
+        # 7. Generate concise machine-readable explainability metadata
+        model_details = raw_weight_output.model_details if raw_weight_output else None
+        explanation_obj = self.explainability_engine.generate_explanation(
+            variable=norm_var,
+            lead_time_hours=lead_time_hours,
+            selected_weights=renormalized_weights,
+            region=region or st_name,
+            weather_regime=weather_regime,
+            model_details=model_details,
+        )
+
+        # 8. Assemble BlendedForecastResult container
         forecast_id = f"BLEND-{norm_var[:4].upper()}-{st_id or 'GRID'}-{lead_time_hours}H-{now.strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}"
         unit = VARIABLE_UNITS.get(norm_var, "")
 
@@ -187,6 +201,7 @@ class ForecastBlendingEngine:
             models_rejected=models_rejected,
             weights_renormalized=weights_renormalized,
             blending_method=method,
+            explanation=explanation_obj.model_dump(),
             created_at=datetime.now(),
         )
 
@@ -462,12 +477,11 @@ class ForecastBlendingEngine:
         region: Optional[str],
         weather_regime: Optional[str],
         explicit_weights: Optional[Dict[str, float]],
-    ) -> Dict[str, float]:
+    ) -> Tuple[Dict[str, float], Optional[Any]]:
         if explicit_weights:
             tot = sum(explicit_weights.values())
-            if tot > 0:
-                return {k: v / tot for k, v in explicit_weights.items()}
-            return {k: 1.0 / len(explicit_weights) for k in explicit_weights}
+            weights = {k: v / tot for k, v in explicit_weights.items()} if tot > 0 else {k: 1.0 / len(explicit_weights) for k in explicit_weights}
+            return weights, None
 
         # Query AdaptiveWeightEngine
         weight_out = self.weight_engine.calculate_weights(
@@ -477,7 +491,7 @@ class ForecastBlendingEngine:
             region=region,
             weather_regime=weather_regime,
         )
-        return weight_out.normalized_weights
+        return weight_out.normalized_weights, weight_out
 
     def _normalize_variable(self, var: Union[WeatherVariable, str]) -> str:
         s = var.value if isinstance(var, WeatherVariable) else str(var).lower().strip()

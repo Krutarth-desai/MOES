@@ -1,0 +1,67 @@
+# =====================================================================
+# Meteorological Data Sources Configuration
+# System: Hybrid AI-NWP Multi-Model Forecast Blending System
+# =====================================================================
+# Strict Provenance Options:
+#   - REAL DATA: Verified in-situ sensors (IMD AWS) or operational NWP feeds.
+#   - SIMULATED DATA: Synthetic physics-based profiles (NOT ground truth).
+#   - DEMO DATA: Static benchmark fixtures for testing & offline evaluation.
+# =====================================================================
+
+# Global Provenance Enforcement
+provenance_mode: "AUTO" # Options: "AUTO", "REAL_DATA", "SIMULATED_DATA", "DEMO_DATA"
+
+# Forecast Source Configuration
+forecast_source:
+  # Type options:
+  #   - "netcdf"    : Reads gridded or station NetCDF (.nc) files
+  #   - "csv"       : Reads tabular CSV forecasts
+  #   - "json"      : Reads GeoJSON or REST JSON feeds
+  #   - "openmeteo" : Real operational Open-Meteo API (GFS, ECMWF, ICON)
+  #   - "simulated" : Physics-based synthetic simulator
+  #   - "demo"      : Packaged sample datasets (default)
+  #   - "hybrid"    : File-first with simulation fallback
+  type: "demo"
+  path: "data/sample"
+  category: "DEMO DATA"
+  description: "MOES Static Benchmark NWP & AI model forecast sample files"
+  models:
+    - "NWP Model A"
+    - "NWP Model B"
+    - "Ensemble Forecast"
+    - "AI Forecast"
+
+# Observation Source Configuration
+observation_source:
+  # Type options:
+  #   - "netcdf"    : Reads gridded observation NetCDF (.nc) files (e.g. IMD 0.25 deg)
+  #   - "csv"       : Reads IMD AWS / WMO GTS station CSV reports
+  #   - "json"      : Reads AWS telemetry JSON feeds
+  #   - "openmeteo" : Real-time observational API
+  #   - "simulated" : Synthetic station telemetry
+  #   - "demo"      : Packaged ground truth observations (default)
+  #   - "hybrid"    : File-first with simulation fallback
+  type: "demo"
+  path: "data/sample"
+  category: "DEMO DATA"
+  description: "MOES Packaged Ground Truth & AWS Station observation sample files"
+
+# Format Specifications for Custom Files:
+formats:
+  netcdf:
+    cf_compliant: true
+    variable_mappings:
+      temperature: ["t2m", "temp", "temperature", "tas"]
+      rainfall: ["tp", "precip", "precipitation", "rainfall"]
+      wind_speed: ["ws10", "wind_speed", "si10"]
+      wind_direction: ["wdir", "wind_dir", "wdir10"]
+    coordinate_mappings:
+      latitude: ["lat", "latitude"]
+      longitude: ["lon", "longitude"]
+      time: ["time", "valid_time"]
+      lead_time: ["step", "lead_time", "lead_time_hours"]
+
+  csv:
+    delimiter: ","
+    encoding: "utf-8"
+    null_values: ["", "NA", "null", "-999", "-999.0", "NaN"]

@@ -86,10 +86,18 @@ def get_model_weights(
 from backend.app.services.weighting import (
     AdaptiveWeightEngine,
     AdaptiveWeightOutput,
+    ModelWeightMappingEngine,
+    PointWeightRequest,
+    RegionalSummaryResponse,
+    RegionWeightSummary,
+    SpatialWeightGridResponse,
     WeightCalculationRequest,
+    WeightGridCell,
 )
+from backend.app.services.weighting.mapping import _cached_weight_grid
 
 weight_engine = AdaptiveWeightEngine()
+mapping_engine = ModelWeightMappingEngine(weight_engine=weight_engine)
 
 
 @router.post("/calculate", response_model=AdaptiveWeightOutput)
@@ -146,3 +154,91 @@ def calculate_dynamic_weights_get(
         season=season,
         weather_regime=weather_regime,
     )
+
+
+# -------------------------------------------------------------
+# Model Weight Mapping & Geographic Grid APIs
+# -------------------------------------------------------------
+
+@router.get("/grid", response_model=SpatialWeightGridResponse)
+def get_geographic_weight_grid(
+    variable: str = Query("rainfall", description="Target variable: rainfall, temperature, wind_speed"),
+    lead_time_hours: int = Query(24, ge=0, le=168, description="Forecast lead time in hours"),
+    season: str = Query("monsoon", description="Season: monsoon, post_monsoon, winter, pre_monsoon"),
+    weather_regime: str = Query("normal", description="Weather regime: normal, heavy_rain, heat_wave, high_wind, convective_storm"),
+    resolution_deg: float = Query(3.0, ge=1.0, le=5.0, description="Spatial resolution in degrees (1.0 to 5.0)"),
+    models: Optional[List[str]] = Query(None, description="Forecast models to blend"),
+):
+    """
+    Returns full geographic weight-grid data across India suitable for interactive map rendering.
+
+    Results are LRU-cached — identical parameter sets return instantly on subsequent calls.
+
+    For each (lat, lon, variable, lead_time, season, regime):
+    - Identifies dominant model with color coding
+    - Computes weights for each contributing model
+    - Computes weight distribution entropy and spread
+    - Produces region-level reliability summaries
+
+    Governance rule: Does NOT label any model as 'best' globally. Communicates context-dependent reliability.
+    """
+    active_models = models or ["NWP Model A", "NWP Model B", "Ensemble Forecast", "AI/ML Forecast"]
+    return _cached_weight_grid(
+        variable=variable,
+        lead_time_hours=lead_time_hours,
+        season=season,
+        weather_regime=weather_regime,
+        grid_resolution_deg=resolution_deg,
+        models_tuple=tuple(active_models),
+    )
+
+
+@router.get("/regional-summary", response_model=RegionalSummaryResponse)
+def get_regional_weight_summary(
+    variable: str = Query("rainfall", description="Target variable"),
+    lead_time_hours: int = Query(24, ge=0, le=168, description="Forecast lead time in hours"),
+    season: str = Query("monsoon", description="Season"),
+    weather_regime: str = Query("normal", description="Weather regime"),
+    models: Optional[List[str]] = Query(None, description="Forecast models to blend"),
+):
+    """
+    Returns region-level model reliability summaries formatted as:
+    
+    Region A:
+    Model A = 0.52
+    Model B = 0.28
+    Model C = 0.20
+    """
+    summaries = mapping_engine.generate_regional_summaries(
+        variable=variable,
+        lead_time_hours=lead_time_hours,
+        season=season,
+        weather_regime=weather_regime,
+        models=models,
+    )
+    all_text = "\n\n".join(s.summary_formatted for s in summaries)
+    return RegionalSummaryResponse(
+        variable=variable,
+        lead_time_hours=lead_time_hours,
+        season=season,
+        weather_regime=weather_regime,
+        summaries=summaries,
+        all_formatted_text=all_text,
+    )
+
+
+@router.post("/point", response_model=WeightGridCell)
+def get_point_weight(request: PointWeightRequest):
+    """
+    Calculates model weights, dominant model, and distribution entropy at an arbitrary coordinate.
+    """
+    return mapping_engine.compute_cell_weights(
+        lat=request.latitude,
+        lon=request.longitude,
+        variable=request.variable,
+        lead_time_hours=request.lead_time_hours,
+        season=request.season or "monsoon",
+        weather_regime=request.weather_regime or "normal",
+        models=request.models,
+    )
+

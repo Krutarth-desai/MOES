@@ -233,7 +233,7 @@ class AdaptiveWeightEngine:
         store = (
             historical_performance
             if isinstance(historical_performance, SkillScoreStore)
-            else (SkillScoreStore() if historical_performance is None else None)
+            else (self.skill_store if historical_performance is None else None)
         )
         records = store.get_all_records() if store else (historical_performance if isinstance(historical_performance, list) else [])
 
