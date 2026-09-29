@@ -47,7 +47,7 @@ const FALLBACK_MONSOON = {
         models_ingested: 4,
         records_processed: 56,
         validation_status: 'All physical bounds verified (0 clamped, 0 rejected)',
-        provenance: 'DEMO DATA (Deterministic SIH Benchmark Fixture)',
+        provenance: 'REFERENCE DATA (Deterministic Meteorological Benchmark Fixture)',
       },
       summary_text: '4 models ingested: NWP-A (112.5mm), NWP-B (72.0mm), Ensemble (86.0mm), AI (58.0mm).',
     },
@@ -346,12 +346,14 @@ export default function DemoModeSection() {
       id="demo-mode"
       className="dashboard-card"
       style={{
-        background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(10, 15, 29, 0.99) 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.35)',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(56, 145, 218, 0.22)',
         borderRadius: '16px',
         padding: '1.5rem',
         marginBottom: '2rem',
-        boxShadow: '0 8px 32px rgba(2, 132, 199, 0.15)',
+        boxShadow: '0 8px 32px rgba(15, 41, 77, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -365,7 +367,7 @@ export default function DemoModeSection() {
           width: '320px',
           height: '320px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />
@@ -379,7 +381,7 @@ export default function DemoModeSection() {
           flexWrap: 'wrap',
           gap: '16px',
           marginBottom: '1.5rem',
-          borderBottom: '1px solid rgba(51, 65, 85, 0.5)',
+          borderBottom: '1px solid rgba(56, 145, 218, 0.16)',
           paddingBottom: '1.25rem',
         }}
       >
@@ -387,23 +389,23 @@ export default function DemoModeSection() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
             <span
               style={{
-                background: 'linear-gradient(135deg, #0284c7, #38bdf8)',
+                background: 'linear-gradient(135deg, #0284c7, #2563eb)',
                 color: '#fff',
                 fontSize: '0.72rem',
                 fontWeight: 800,
                 padding: '4px 10px',
                 borderRadius: '6px',
                 letterSpacing: '0.08em',
-                boxShadow: '0 2px 8px rgba(2, 132, 199, 0.4)',
+                boxShadow: '0 2px 8px rgba(2, 132, 199, 0.3)',
               }}
             >
-              SIH PRESENTATION MODE
+              OPERATIONAL PIPELINE SIMULATION
             </span>
             <span
               style={{
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: '#10b981',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
+                background: 'rgba(37, 99, 235, 0.08)',
+                color: '#0284c7',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
                 fontSize: '0.72rem',
                 fontWeight: 700,
                 padding: '3px 8px',
@@ -416,7 +418,7 @@ export default function DemoModeSection() {
               <Check size={12} />
               DETERMINISTIC FIXED DATASET
             </span>
-            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+            <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
               Execution Target: ~3–4 Minutes
             </span>
           </div>
@@ -425,7 +427,7 @@ export default function DemoModeSection() {
             style={{
               fontSize: '1.45rem',
               fontWeight: 800,
-              color: '#f8fafc',
+              color: '#0F2942',
               letterSpacing: '-0.02em',
               margin: '4px 0',
               display: 'flex',
@@ -433,10 +435,10 @@ export default function DemoModeSection() {
               gap: '8px',
             }}
           >
-            <span>End-to-End Operational Forecast Blending Pipeline</span>
-            <Sparkles size={20} color="#38bdf8" />
+            <span style={{ color: '#0F2942' }}>End-to-End Operational Forecast Blending Pipeline</span>
+            <Sparkles size={20} color="#0284c7" />
           </h2>
-          <p style={{ fontSize: '0.82rem', color: '#cbd5e1', maxWidth: '850px', lineHeight: 1.4 }}>
+          <p style={{ fontSize: '0.82rem', color: '#475569', maxWidth: '850px', lineHeight: 1.4 }}>
             Demonstrates real-time multi-model ingestion, thermodynamic regime diagnosis, empirical skill retrieval,
             simplex-constrained adaptive weighting, circular wind/precipitation consensus, IMD extreme warning, and
             transparent explainability. Zero fabricated performance improvements.
@@ -447,7 +449,7 @@ export default function DemoModeSection() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           {/* Scenario Selector */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 600 }}>SELECT SCENARIO:</label>
+            <label style={{ fontSize: '0.68rem', color: '#475569', fontWeight: 700 }}>SELECT SCENARIO:</label>
             <select
               value={selectedScenarioId}
               onChange={(e) => {
@@ -455,15 +457,16 @@ export default function DemoModeSection() {
                 triggerRunScenario(e.target.value)
               }}
               style={{
-                background: 'rgba(15, 23, 42, 0.9)',
-                color: '#f8fafc',
-                border: '1px solid rgba(56, 189, 248, 0.4)',
+                background: '#F8FAFC',
+                color: '#0F2942',
+                border: '1px solid #CBD5E1',
                 borderRadius: '8px',
                 padding: '7px 12px',
                 fontSize: '0.78rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 outline: 'none',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               }}
             >
               <option value="monsoon_convective_storm">
@@ -477,20 +480,21 @@ export default function DemoModeSection() {
 
           {/* Speed Selector */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 600 }}>PACING MODE:</label>
+            <label style={{ fontSize: '0.68rem', color: '#475569', fontWeight: 700 }}>PACING MODE:</label>
             <select
               value={playbackSpeed}
               onChange={(e) => setPlaybackSpeed(e.target.value)}
               style={{
-                background: 'rgba(15, 23, 42, 0.9)',
-                color: '#f8fafc',
-                border: '1px solid rgba(51, 65, 85, 0.8)',
+                background: '#F8FAFC',
+                color: '#0F2942',
+                border: '1px solid #CBD5E1',
                 borderRadius: '8px',
                 padding: '7px 10px',
                 fontSize: '0.78rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 outline: 'none',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               }}
             >
               <option value="presentation">Auditorium Demo (~3.5 Min)</option>
@@ -518,7 +522,7 @@ export default function DemoModeSection() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: '0 4px 14px rgba(2, 132, 199, 0.5)',
+              boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
               transition: 'all 0.2s ease',
             }}
           >
@@ -539,12 +543,12 @@ export default function DemoModeSection() {
           {isRunning && (
             <button
               onClick={() => setIsPaused(!isPaused)}
-              title={isPaused ? 'Resume Presentation' : 'Pause at current stage to explain to jury'}
+              title={isPaused ? 'Resume Simulation' : 'Pause at current stage for technical inspection'}
               style={{
                 marginTop: '16px',
-                background: isPaused ? '#10b981' : '#f59e0b',
-                color: '#0f172a',
-                border: 'none',
+                background: isPaused ? '#0284c7' : '#F1F5F9',
+                color: isPaused ? '#ffffff' : '#0F2942',
+                border: '1px solid #CBD5E1',
                 padding: '8px 12px',
                 borderRadius: '8px',
                 fontSize: '0.78rem',
@@ -555,7 +559,7 @@ export default function DemoModeSection() {
                 gap: '5px',
               }}
             >
-              {isPaused ? <Play size={13} fill="#0f172a" /> : <Pause size={13} />}
+              {isPaused ? <Play size={13} fill="#ffffff" /> : <Pause size={13} />}
               <span>{isPaused ? 'Resume' : 'Pause'}</span>
             </button>
           )}
@@ -576,11 +580,11 @@ export default function DemoModeSection() {
             marginBottom: '8px',
           }}
         >
-          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             OPERATIONAL PIPELINE FLOW (7 SEQUENTIAL STAGES)
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '0.72rem', color: '#38bdf8', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.72rem', color: '#0284c7', fontWeight: 700 }}>
               Stage {Math.min(currentStageIndex + 1, 7)} of 7: {stagesList[currentStageIndex]?.title || 'READY'}
             </span>
             <div style={{ display: 'flex', gap: '4px' }}>
@@ -588,9 +592,9 @@ export default function DemoModeSection() {
                 onClick={handlePrevStage}
                 disabled={currentStageIndex === 0}
                 style={{
-                  background: 'rgba(30, 41, 59, 0.8)',
-                  color: currentStageIndex === 0 ? '#475569' : '#f8fafc',
-                  border: '1px solid rgba(51, 65, 85, 0.8)',
+                  background: '#F1F5F9',
+                  color: currentStageIndex === 0 ? '#94A3B8' : '#0F2942',
+                  border: '1px solid #CBD5E1',
                   borderRadius: '6px',
                   padding: '3px 8px',
                   fontSize: '0.7rem',
@@ -603,9 +607,9 @@ export default function DemoModeSection() {
                 onClick={handleNextStage}
                 disabled={currentStageIndex === 6}
                 style={{
-                  background: 'rgba(30, 41, 59, 0.8)',
-                  color: currentStageIndex === 6 ? '#475569' : '#f8fafc',
-                  border: '1px solid rgba(51, 65, 85, 0.8)',
+                  background: '#F1F5F9',
+                  color: currentStageIndex === 6 ? '#94A3B8' : '#0F2942',
+                  border: '1px solid #CBD5E1',
                   borderRadius: '6px',
                   padding: '3px 8px',
                   fontSize: '0.7rem',
@@ -623,7 +627,7 @@ export default function DemoModeSection() {
           <div
             style={{
               height: '4px',
-              background: 'rgba(51, 65, 85, 0.5)',
+              background: '#E2E8F0',
               borderRadius: '2px',
               marginBottom: '12px',
               overflow: 'hidden',
@@ -633,7 +637,7 @@ export default function DemoModeSection() {
               style={{
                 height: '100%',
                 width: `${stageProgressPercent}%`,
-                background: 'linear-gradient(90deg, #38bdf8, #10b981)',
+                background: 'linear-gradient(90deg, #0284c7, #2563eb)',
                 transition: 'width 0.1s linear',
               }}
             />
@@ -659,26 +663,32 @@ export default function DemoModeSection() {
                 onClick={() => setActiveStageDetail(idx)}
                 style={{
                   background: isCurrent
-                    ? 'linear-gradient(145deg, rgba(2, 132, 199, 0.25), rgba(15, 23, 42, 0.95))'
+                    ? 'linear-gradient(145deg, #E0F2FE, #FFFFFF)'
                     : isFocused
-                    ? 'rgba(30, 41, 59, 0.95)'
+                    ? '#F0F9FF'
                     : isCompleted
-                    ? 'rgba(15, 23, 42, 0.85)'
-                    : 'rgba(15, 23, 42, 0.4)',
+                    ? '#F8FAFC'
+                    : '#FAFAFA',
                   border: isCurrent
-                    ? '2px solid #38bdf8'
+                    ? '2px solid #0284c7'
                     : isFocused
                     ? '1.5px solid #0284c7'
                     : isCompleted
-                    ? '1px solid rgba(16, 185, 129, 0.4)'
-                    : '1px dashed rgba(51, 65, 85, 0.6)',
+                    ? '1px solid #BAE6FD'
+                    : '1px dashed #CBD5E1',
                   borderRadius: '10px',
                   padding: '10px 8px',
                   cursor: 'pointer',
                   textAlign: 'center',
                   transition: 'all 0.2s ease',
                   position: 'relative',
-                  boxShadow: isCurrent ? '0 0 16px rgba(56, 189, 248, 0.35)' : 'none',
+                  boxShadow: isCurrent
+                    ? '0 4px 16px rgba(2, 132, 199, 0.2)'
+                    : isFocused
+                    ? '0 2px 8px rgba(2, 132, 199, 0.12)'
+                    : isCompleted
+                    ? '0 1px 3px rgba(15, 41, 77, 0.04)'
+                    : 'none',
                 }}
               >
                 {/* Stage Indicator Icon */}
@@ -686,8 +696,8 @@ export default function DemoModeSection() {
                   {isCompleted ? (
                     <div
                       style={{
-                        background: 'rgba(16, 185, 129, 0.2)',
-                        color: '#10b981',
+                        background: 'rgba(37, 99, 235, 0.12)',
+                        color: '#0284c7',
                         borderRadius: '50%',
                         width: '24px',
                         height: '24px',
@@ -701,8 +711,8 @@ export default function DemoModeSection() {
                   ) : (
                     <div
                       style={{
-                        background: 'rgba(51, 65, 85, 0.5)',
-                        color: '#94a3b8',
+                        background: '#E2E8F0',
+                        color: '#64748B',
                         borderRadius: '50%',
                         width: '24px',
                         height: '24px',
@@ -722,7 +732,7 @@ export default function DemoModeSection() {
                   style={{
                     fontSize: '0.74rem',
                     fontWeight: 800,
-                    color: isCurrent ? '#38bdf8' : isCompleted ? '#f8fafc' : '#64748b',
+                    color: isCurrent ? '#0284c7' : isCompleted || isFocused ? '#0F2942' : '#94A3B8',
                     letterSpacing: '0.02em',
                     lineHeight: 1.2,
                     marginBottom: '4px',
@@ -734,7 +744,7 @@ export default function DemoModeSection() {
                 <div
                   style={{
                     fontSize: '0.66rem',
-                    color: isCompleted ? '#10b981' : '#64748b',
+                    color: isCompleted ? '#0284c7' : '#94A3B8',
                     fontWeight: 600,
                   }}
                 >
@@ -751,11 +761,12 @@ export default function DemoModeSection() {
       {/* ========================================================================= */}
       <div
         style={{
-          background: 'rgba(15, 23, 42, 0.75)',
-          border: '1px solid rgba(56, 189, 248, 0.25)',
+          background: '#F8FAFC',
+          border: '1px solid #E2E8F0',
           borderRadius: '12px',
           padding: '1rem',
           marginBottom: '1.5rem',
+          boxShadow: '0 2px 8px rgba(15, 41, 77, 0.04)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
@@ -772,16 +783,17 @@ export default function DemoModeSection() {
             >
               STAGE {activeStage.stage_number}
             </span>
-            <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#f8fafc' }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0F2942' }}>
               {activeStage.title}
             </span>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>({activeStage.duration_ms} ms)</span>
+            <span style={{ fontSize: '0.72rem', color: '#64748B' }}>({activeStage.duration_ms} ms)</span>
           </div>
 
           <div
             style={{
-              background: 'rgba(16, 185, 129, 0.15)',
-              color: '#10b981',
+              background: 'rgba(37, 99, 235, 0.08)',
+              color: '#0284c7',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
               padding: '2px 8px',
               borderRadius: '12px',
               fontSize: '0.72rem',
@@ -792,7 +804,7 @@ export default function DemoModeSection() {
           </div>
         </div>
 
-        <p style={{ fontSize: '0.82rem', color: '#cbd5e1', marginBottom: '10px' }}>
+        <p style={{ fontSize: '0.82rem', color: '#334155', marginBottom: '10px' }}>
           {activeStage.description}
         </p>
 
@@ -802,15 +814,16 @@ export default function DemoModeSection() {
             <div
               key={k}
               style={{
-                background: 'rgba(30, 41, 59, 0.8)',
-                border: '1px solid rgba(51, 65, 85, 0.7)',
+                background: '#FFFFFF',
+                border: '1px solid #CBD5E1',
                 padding: '4px 10px',
                 borderRadius: '6px',
                 fontSize: '0.72rem',
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.04)',
               }}
             >
-              <span style={{ color: '#94a3b8', textTransform: 'capitalize' }}>{k.replace('_', ' ')}: </span>
-              <strong style={{ color: '#38bdf8' }}>
+              <span style={{ color: '#64748B', textTransform: 'capitalize' }}>{k.replace('_', ' ')}: </span>
+              <strong style={{ color: '#0284c7' }}>
                 {typeof v === 'object' ? JSON.stringify(v) : String(v)}
               </strong>
             </div>
@@ -840,15 +853,16 @@ export default function DemoModeSection() {
         {/* CARD 1: MULTIPLE FORECAST MODELS (Requirement 1 & 6) */}
         <div
           style={{
-            background: 'rgba(15, 23, 42, 0.85)',
-            border: '1px solid rgba(51, 65, 85, 0.8)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
             borderRadius: '12px',
             padding: '1.1rem',
+            boxShadow: '0 2px 10px rgba(15, 41, 77, 0.04)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <Layers size={16} color="#38bdf8" />
-            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+            <Layers size={16} color="#0284c7" />
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
               1. Multi-Model Predictions vs Blended Consensus
             </h3>
           </div>
@@ -858,34 +872,35 @@ export default function DemoModeSection() {
               <div
                 key={m.model_name}
                 style={{
-                  background: 'rgba(30, 41, 59, 0.7)',
+                  background: '#F8FAFC',
+                  border: '1px solid #E2E8F0',
                   borderRadius: '8px',
                   padding: '8px 10px',
                   borderLeft: `4px solid ${
                     m.model_name.includes('NWP Model B')
-                      ? '#10b981'
+                      ? '#10B981'
                       : m.model_name.includes('AI')
-                      ? '#8b5cf6'
+                      ? '#8B5CF6'
                       : m.model_name.includes('Ensemble')
-                      ? '#f59e0b'
-                      : '#0284c7'
+                      ? '#F59E0B'
+                      : '#2563EB'
                   }`,
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#f8fafc' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0F2942' }}>
                     {m.model_name}
                   </span>
-                  <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#38bdf8' }}>
+                  <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0284c7' }}>
                     {m.forecast_value} {m.unit}
                   </span>
                 </div>
-                <div style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+                <div style={{ fontSize: '0.68rem', color: '#64748B' }}>
                   {m.bias_characteristics}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px', fontSize: '0.68rem', color: '#cbd5e1' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px', fontSize: '0.68rem', color: '#334155' }}>
                   <span>Hist. RMSE: <strong>{m.historical_rmse} {m.unit}</strong></span>
-                  <span>Simplex Weight: <strong style={{ color: '#10b981' }}>{(m.assigned_weight * 100).toFixed(0)}%</strong></span>
+                  <span>Simplex Weight: <strong style={{ color: '#0284c7' }}>{(m.assigned_weight * 100).toFixed(0)}%</strong></span>
                 </div>
               </div>
             ))}
@@ -893,24 +908,24 @@ export default function DemoModeSection() {
             {/* Blended Consensus Banner */}
             <div
               style={{
-                background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(16, 185, 129, 0.3))',
-                border: '1.5px solid #38bdf8',
+                background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(37, 99, 235, 0.12))',
+                border: '1.5px solid #0284c7',
                 borderRadius: '8px',
                 padding: '10px 12px',
                 marginTop: '4px',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#ffffff' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F2942' }}>
                   HYBRID BLENDED CONSENSUS
                 </span>
-                <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#38bdf8' }}>
+                <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0284c7' }}>
                   {scenarioData?.blended_value} {scenarioData?.unit}
                 </span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#94a3b8', marginTop: '4px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#64748B', marginTop: '4px' }}>
                 <span>Spread: ±{scenarioData?.ensemble_spread} {scenarioData?.unit}</span>
-                <span>Confidence Index: <strong style={{ color: '#10b981' }}>{(scenarioData?.confidence_index * 100).toFixed(0)}%</strong></span>
+                <span>Confidence Index: <strong style={{ color: '#0284c7' }}>{(scenarioData?.confidence_index * 100).toFixed(0)}%</strong></span>
               </div>
             </div>
           </div>
@@ -919,15 +934,16 @@ export default function DemoModeSection() {
         {/* CARD 2: WEATHER REGIME & ADAPTIVE WEIGHT SIMPLEX (Requirements 2, 3, 4) */}
         <div
           style={{
-            background: 'rgba(15, 23, 42, 0.85)',
-            border: '1px solid rgba(51, 65, 85, 0.8)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
             borderRadius: '12px',
             padding: '1.1rem',
+            boxShadow: '0 2px 10px rgba(15, 41, 77, 0.04)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <Activity size={16} color="#10b981" />
-            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+            <Activity size={16} color="#0284c7" />
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
               2. Weather Regime & Adaptive Weight Simplex
             </h3>
           </div>
@@ -935,23 +951,23 @@ export default function DemoModeSection() {
           {/* Regime Badge */}
           <div
             style={{
-              background: 'rgba(56, 189, 248, 0.1)',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
+              background: '#F0F9FF',
+              border: '1px solid #BAE6FD',
               borderRadius: '8px',
               padding: '8px 12px',
               marginBottom: '12px',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 600 }}>DIAGNOSED REGIME:</span>
-              <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700 }}>
+              <span style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>DIAGNOSED REGIME:</span>
+              <span style={{ fontSize: '0.75rem', color: '#0284c7', fontWeight: 700 }}>
                 Confidence: {(scenarioData?.regime_confidence * 100).toFixed(0)}%
               </span>
             </div>
-            <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#f8fafc' }}>
+            <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0F2942' }}>
               {scenarioData?.diagnosed_regime}
             </div>
-            <ul style={{ margin: '6px 0 0 0', paddingLeft: '16px', fontSize: '0.7rem', color: '#cbd5e1' }}>
+            <ul style={{ margin: '6px 0 0 0', paddingLeft: '16px', fontSize: '0.7rem', color: '#334155' }}>
               {scenarioData?.supporting_indicators?.map((ind, i) => (
                 <li key={i}>{ind}</li>
               ))}
@@ -959,30 +975,30 @@ export default function DemoModeSection() {
           </div>
 
           {/* Weight Simplex Breakdown Bars */}
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', marginBottom: '8px' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569', marginBottom: '8px' }}>
             PROBABILISTIC WEIGHTS (SUM = 1.00):
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {scenarioData?.individual_models?.map((m) => (
               <div key={m.model_name}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', marginBottom: '2px' }}>
-                  <span style={{ color: '#cbd5e1' }}>{m.model_name.split(' (')[0]}</span>
-                  <span style={{ fontWeight: 700, color: '#38bdf8' }}>
+                  <span style={{ color: '#334155' }}>{m.model_name.split(' (')[0]}</span>
+                  <span style={{ fontWeight: 700, color: '#0284c7' }}>
                     {(m.assigned_weight * 100).toFixed(1)}% (w = {m.assigned_weight})
                   </span>
                 </div>
-                <div style={{ height: '6px', background: 'rgba(51, 65, 85, 0.6)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
                   <div
                     style={{
                       height: '100%',
                       width: `${m.assigned_weight * 100}%`,
                       background: m.model_name.includes('NWP Model B')
-                        ? '#10b981'
+                        ? '#10B981'
                         : m.model_name.includes('AI')
-                        ? '#8b5cf6'
+                        ? '#8B5CF6'
                         : m.model_name.includes('Ensemble')
-                        ? '#f59e0b'
-                        : '#0284c7',
+                        ? '#F59E0B'
+                        : '#2563EB',
                     }}
                   />
                 </div>
@@ -993,21 +1009,22 @@ export default function DemoModeSection() {
           {/* Verification Skill Box */}
           <div
             style={{
-              background: 'rgba(30, 41, 59, 0.6)',
+              background: '#F8FAFC',
+              border: '1px solid #E2E8F0',
               borderRadius: '8px',
               padding: '8px 10px',
               marginTop: '12px',
               fontSize: '0.72rem',
-              color: '#cbd5e1',
+              color: '#334155',
             }}
           >
-            <div style={{ color: '#10b981', fontWeight: 700, marginBottom: '2px' }}>
+            <div style={{ color: '#0284c7', fontWeight: 700, marginBottom: '2px' }}>
               EMPIRICALLY VERIFIED SKILL GAIN:
             </div>
             <div>
               Hybrid RMSE: <strong>{scenarioData?.hybrid_rmse} {scenarioData?.unit}</strong> vs Best Individual Model ({scenarioData?.best_model_name}): <strong>{scenarioData?.best_individual_rmse} {scenarioData?.unit}</strong>
             </div>
-            <div style={{ color: '#38bdf8', fontWeight: 700, marginTop: '2px' }}>
+            <div style={{ color: '#0284c7', fontWeight: 700, marginTop: '2px' }}>
               Relative Error Reduction: +{scenarioData?.relative_improvement_pct}%
             </div>
           </div>
@@ -1016,15 +1033,16 @@ export default function DemoModeSection() {
         {/* CARD 3: EXTREME WEATHER & GEOGRAPHIC IMPACT (Requirements 7 & 8) */}
         <div
           style={{
-            background: 'rgba(15, 23, 42, 0.85)',
-            border: '1px solid rgba(51, 65, 85, 0.8)',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
             borderRadius: '12px',
             padding: '1.1rem',
+            boxShadow: '0 2px 10px rgba(15, 41, 77, 0.04)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <AlertTriangle size={16} color={scenarioData?.alert_category === 'RED' ? '#ef4444' : '#f97316'} />
-            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+            <AlertTriangle size={16} color="#0284c7" />
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
               3. Extreme Weather & Geographic Map Impact
             </h3>
           </div>
@@ -1033,9 +1051,17 @@ export default function DemoModeSection() {
           <div
             style={{
               background: scenarioData?.alert_category === 'RED'
-                ? 'rgba(239, 68, 68, 0.2)'
-                : 'rgba(249, 115, 22, 0.2)',
-              border: `1.5px solid ${scenarioData?.alert_category === 'RED' ? '#ef4444' : '#f97316'}`,
+                ? 'rgba(239, 68, 68, 0.12)'
+                : scenarioData?.alert_category === 'ORANGE'
+                ? 'rgba(249, 115, 22, 0.12)'
+                : 'rgba(37, 99, 235, 0.12)',
+              border: `1.5px solid ${
+                scenarioData?.alert_category === 'RED'
+                  ? '#EF4444'
+                  : scenarioData?.alert_category === 'ORANGE'
+                  ? '#F97316'
+                  : '#2563EB'
+              }`,
               borderRadius: '8px',
               padding: '8px 12px',
               marginBottom: '10px',
@@ -1046,16 +1072,16 @@ export default function DemoModeSection() {
                 style={{
                   fontSize: '0.88rem',
                   fontWeight: 900,
-                  color: scenarioData?.alert_category === 'RED' ? '#ef4444' : '#f97316',
+                  color: scenarioData?.alert_category === 'RED' ? '#DC2626' : scenarioData?.alert_category === 'ORANGE' ? '#EA580C' : '#2563EB',
                 }}
               >
                 IMD {scenarioData?.alert_category} ALERT
               </span>
-              <span style={{ fontSize: '0.72rem', color: '#cbd5e1' }}>
+              <span style={{ fontSize: '0.72rem', color: '#475569' }}>
                 Risk Score: <strong>{(scenarioData?.risk_score * 100).toFixed(0)}%</strong>
               </span>
             </div>
-            <div style={{ fontSize: '0.74rem', color: '#f8fafc', marginTop: '4px' }}>
+            <div style={{ fontSize: '0.74rem', color: '#0F2942', fontWeight: 500, marginTop: '4px' }}>
               {scenarioData?.action_statement}
             </div>
           </div>
@@ -1066,7 +1092,7 @@ export default function DemoModeSection() {
               height: '190px',
               borderRadius: '8px',
               overflow: 'hidden',
-              border: '1px solid rgba(51, 65, 85, 0.8)',
+              border: '1px solid #CBD5E1',
               marginBottom: '8px',
             }}
           >
@@ -1077,8 +1103,9 @@ export default function DemoModeSection() {
               style={{ height: '100%', width: '100%' }}
             >
               <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://stadia.maps.com">Stadia Maps</a>'
-                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}.png"
+                maxZoom={19}
               />
 
               {/* Geographic Impact Circle */}
@@ -1090,11 +1117,11 @@ export default function DemoModeSection() {
                   ]}
                   radius={(scenarioData.geographic_impact.radius_km || 140) * 1000}
                   pathOptions={{
-                    color: scenarioData.alert_category === 'RED' ? '#ef4444' : '#f97316',
-                    fillColor: scenarioData.alert_category === 'RED' ? '#ef4444' : '#f97316',
-                    fillOpacity: 0.2,
-                    weight: 2,
-                    dashArray: '4, 4',
+                    color: scenarioData.alert_category === 'RED' ? '#EF4444' : '#F97316',
+                    fillColor: scenarioData.alert_category === 'RED' ? '#EF4444' : '#F97316',
+                    fillOpacity: 0.25,
+                    weight: 2.2,
+                    dashArray: '5, 5',
                   }}
                 />
               )}
@@ -1104,11 +1131,11 @@ export default function DemoModeSection() {
                 <CircleMarker
                   key={st.id}
                   center={[st.lat, st.lon]}
-                  radius={7}
+                  radius={7.5}
                   pathOptions={{
-                    color: st.alert === 'RED' ? '#ef4444' : st.alert === 'ORANGE' ? '#f97316' : '#eab308',
-                    fillColor: st.alert === 'RED' ? '#ef4444' : st.alert === 'ORANGE' ? '#f97316' : '#eab308',
-                    fillOpacity: 0.9,
+                    color: '#ffffff',
+                    fillColor: st.alert === 'RED' ? '#EF4444' : st.alert === 'ORANGE' ? '#F97316' : '#0284C7',
+                    fillOpacity: 0.95,
                     weight: 2,
                   }}
                 >
@@ -1124,8 +1151,8 @@ export default function DemoModeSection() {
             </MapContainer>
           </div>
 
-          <div style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
-            Impact Zone: <strong>{scenarioData?.geographic_impact?.region_name}</strong> (Radius: {scenarioData?.geographic_impact?.radius_km} km)
+          <div style={{ fontSize: '0.68rem', color: '#64748B' }}>
+            Impact Zone: <strong style={{ color: '#0F2942' }}>{scenarioData?.geographic_impact?.region_name}</strong> (Radius: {scenarioData?.geographic_impact?.radius_km} km)
           </div>
         </div>
       </div>
@@ -1135,29 +1162,31 @@ export default function DemoModeSection() {
       {/* ========================================================================= */}
       <div
         style={{
-          background: 'rgba(15, 23, 42, 0.9)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
+          background: '#FFFFFF',
+          border: '1px solid #E2E8F0',
           borderRadius: '12px',
           padding: '1.2rem',
           marginTop: '16px',
+          boxShadow: '0 2px 10px rgba(15, 41, 77, 0.04)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Sparkles size={16} color="#38bdf8" />
-          <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f8fafc', margin: 0 }}>
+          <Sparkles size={16} color="#0284c7" />
+          <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
             9. Machine-Readable Explainability Audit: Why Did Model Weights Adapt?
           </h3>
         </div>
 
         <div
           style={{
-            background: 'rgba(30, 41, 59, 0.7)',
+            background: '#F8FAFC',
+            border: '1px solid #E2E8F0',
             borderRadius: '8px',
             padding: '10px 14px',
             fontSize: '0.82rem',
-            color: '#e2e8f0',
+            color: '#1E293B',
             lineHeight: 1.5,
-            borderLeft: '4px solid #38bdf8',
+            borderLeft: '4px solid #0284c7',
             marginBottom: '12px',
           }}
         >
@@ -1175,15 +1204,15 @@ export default function DemoModeSection() {
             <div
               key={model}
               style={{
-                background: 'rgba(15, 23, 42, 0.6)',
-                border: '1px solid rgba(51, 65, 85, 0.6)',
+                background: '#F8FAFC',
+                border: '1px solid #E2E8F0',
                 borderRadius: '6px',
                 padding: '8px 10px',
                 fontSize: '0.72rem',
               }}
             >
-              <strong style={{ color: '#38bdf8' }}>{model}: </strong>
-              <span style={{ color: '#cbd5e1' }}>{rationale}</span>
+              <strong style={{ color: '#0284c7' }}>{model}: </strong>
+              <span style={{ color: '#334155' }}>{rationale}</span>
             </div>
           ))}
         </div>
@@ -1193,13 +1222,13 @@ export default function DemoModeSection() {
           style={{
             marginTop: '10px',
             fontSize: '0.68rem',
-            color: '#94a3b8',
+            color: '#64748B',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
           }}
         >
-          <ShieldAlert size={12} color="#10b981" />
+          <ShieldAlert size={12} color="#0284c7" />
           <span>
             {scenarioData?.skill_verification_notice} Backtest evaluated on out-of-sample holdout test partition without data leakage.
           </span>

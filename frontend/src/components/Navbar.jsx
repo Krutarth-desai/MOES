@@ -35,7 +35,7 @@ export default function Navbar({
   isRunningPipeline,
 }) {
   const navSections = [
-    { id: 'demo-mode', label: '★ SIH Demo Mode', icon: Sparkles },
+    { id: 'demo-mode', label: '★ Pipeline Simulation', icon: Sparkles },
     { id: 'overview', label: '1. Overview', icon: Activity },
     { id: 'live-forecast', label: '2. Live Forecast', icon: CloudLightning },
     { id: 'comparison', label: '3. Comparison', icon: BarChart3 },
@@ -64,7 +64,7 @@ export default function Navbar({
               boxShadow: '0 2px 8px rgba(2, 132, 199, 0.4)',
             }}
           >
-            SIH · MoES
+            MoES · IMD
           </div>
           <div>
             <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -263,10 +263,10 @@ export default function Navbar({
             )}
           </button>
 
-          {/* SIH Presentation Demo Mode Button */}
+          {/* Pipeline Simulation Button */}
           <button
             onClick={() => onSectionClick('demo-mode')}
-            title="Open Dedicated SIH Jury Demo Mode"
+            title="Open Operational Pipeline Simulation"
             style={{
               background: 'linear-gradient(135deg, #0284c7, #38bdf8)',
               color: '#ffffff',
@@ -284,7 +284,7 @@ export default function Navbar({
             }}
           >
             <Sparkles size={13} />
-            <span>SIH Demo Mode</span>
+            <span>Simulation</span>
           </button>
 
           {/* Projector Mode Toggle */}

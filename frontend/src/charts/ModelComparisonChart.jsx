@@ -52,16 +52,16 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
         data: models.map((m) => getMetricValue(m, selectedMetric)),
         backgroundColor: models.map((m) =>
           m.is_hybrid_blend
-            ? '#38bdf8'
+            ? '#2563EB'
             : m.model_name.includes('AI')
-            ? '#8b5cf6'
+            ? '#38BDF8'
             : m.model_name.includes('Ensemble')
-            ? '#f59e0b'
-            : '#0284c7'
+            ? '#0284C7'
+            : '#1E3A8A'
         ),
-        borderColor: models.map((m) => (m.is_hybrid_blend ? '#ffffff' : 'transparent')),
+        borderColor: models.map((m) => (m.is_hybrid_blend ? '#0F2942' : 'transparent')),
         borderWidth: models.map((m) => (m.is_hybrid_blend ? 2 : 0)),
-        borderRadius: 4,
+        borderRadius: 5,
       },
     ],
   }
@@ -72,9 +72,11 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        titleColor: '#38bdf8',
-        bodyColor: '#f1f5f9',
+        backgroundColor: '#FFFFFF',
+        titleColor: '#294E6B',
+        bodyColor: '#243746',
+        borderColor: 'rgba(77, 145, 201, 0.3)',
+        borderWidth: 1,
         callbacks: {
           label: (context) => {
             const m = models[context.dataIndex]
@@ -91,7 +93,7 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
       x: {
         grid: { display: false },
         ticks: {
-          color: '#cbd5e1',
+          color: '#657886',
           font: { size: 10, weight: 600 },
           callback: function (val, index) {
             const name = this.getLabelForValue(index)
@@ -101,12 +103,13 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
         },
       },
       y: {
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(77, 145, 201, 0.12)' },
+        ticks: { color: '#657886' },
         title: {
           display: true,
           text: selectedMetric === 'correlation' ? 'Correlation Coeff [-1, +1]' : 'Error Magnitude',
-          color: '#94a3b8',
+          color: '#405565',
+          font: { weight: 600 },
         },
       },
     },
@@ -123,12 +126,12 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
     <div className="glass-card" style={{ display: 'flex', flexDirection: 'column' }}>
       <div className="card-header" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
         <div className="card-title">
-          <Award size={18} color="#10b981" />
+          <Award size={18} color="#059669" />
           <span>Multi-Model Skill Benchmark & Comparative Evaluation</span>
         </div>
 
         {/* Metric Selector Buttons */}
-        <div style={{ display: 'flex', background: '#0f172a', padding: '3px', borderRadius: '8px', gap: '3px' }}>
+        <div style={{ display: 'flex', background: '#EAF2F7', border: '1px solid rgba(77, 145, 201, 0.25)', padding: '3px', borderRadius: '8px', gap: '3px' }}>
           {[
             { id: 'rmse', label: 'RMSE' },
             { id: 'mae', label: 'MAE' },
@@ -139,10 +142,11 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
               key={item.id}
               onClick={() => setSelectedMetric(item.id)}
               style={{
-                background: selectedMetric === item.id ? 'var(--accent-blue)' : 'transparent',
-                color: selectedMetric === item.id ? '#fff' : '#94a3b8',
+                background: selectedMetric === item.id ? '#4D91C9' : 'transparent',
+                color: selectedMetric === item.id ? '#ffffff' : '#657886',
+                boxShadow: selectedMetric === item.id ? '0 1px 3px rgba(77, 145, 201, 0.3)' : 'none',
                 border: 'none',
-                padding: '4px 8px',
+                padding: '4px 10px',
                 fontSize: '0.72rem',
                 borderRadius: '5px',
                 cursor: 'pointer',
@@ -156,11 +160,11 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
       </div>
 
       <div className="card-body">
-        {/* SIH Executive Headline Badge */}
+        {/* Operational Benchmark Verification Headline Badge */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(16, 185, 129, 0.15))',
-            border: '1px solid rgba(56, 189, 248, 0.3)',
+            background: 'linear-gradient(135deg, rgba(77, 145, 201, 0.12), rgba(5, 150, 105, 0.08))',
+            border: '1px solid rgba(77, 145, 201, 0.25)',
             borderRadius: '8px',
             padding: '10px 14px',
             marginBottom: '12px',
@@ -172,18 +176,18 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <TrendingUp size={20} color="#38bdf8" />
+            <TrendingUp size={20} color="#4D91C9" />
             <div>
-              <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Auditable SIH Evaluation Statement
+              <div style={{ fontSize: '0.7rem', color: '#657886', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>
+                Operational Benchmark Verification Statement
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#f8fafc' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#243746' }}>
                 {headline}
               </div>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span className="badge-green" style={{ fontSize: '0.85rem', padding: '4px 10px' }}>
+            <span style={{ fontSize: '0.85rem', padding: '4px 10px', background: 'rgba(37, 99, 235, 0.12)', color: '#2563EB', border: '1px solid rgba(37, 99, 235, 0.35)', borderRadius: '6px', fontWeight: 800 }}>
               +{improvement}% Error Reduction
             </span>
           </div>
@@ -198,18 +202,18 @@ export default function ModelComparisonChart({ skillData, variable = 'rainfall' 
         <div
           style={{
             marginTop: '0.75rem',
-            padding: '6px 10px',
-            background: 'rgba(30, 41, 59, 0.5)',
+            padding: '8px 12px',
+            background: 'rgba(234, 242, 247, 0.65)',
             borderRadius: '6px',
-            border: '1px solid var(--border-color)',
+            border: '1px solid rgba(77, 145, 201, 0.20)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             fontSize: '0.72rem',
-            color: '#94a3b8',
+            color: '#405565',
           }}
         >
-          <CheckCircle size={14} color="#10b981" style={{ flexShrink: 0 }} />
+          <CheckCircle size={14} color="#059669" style={{ flexShrink: 0 }} />
           <span>
             <strong>Zero Data Leakage:</strong> Evaluated strictly out-of-sample against verified IMD ground-truth observations.
             Adaptive weights are calibrated only on historical training partitions.

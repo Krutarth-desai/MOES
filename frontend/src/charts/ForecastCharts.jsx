@@ -75,12 +75,13 @@ export default function ForecastCharts({
       {
         label: '★ Hybrid Blended Forecast',
         data: leadTimes.map((lt, i) => Math.round((baseTemp + Math.sin(i * 0.8) * 3) * 10) / 10),
-        borderColor: '#38bdf8',
-        backgroundColor: '#38bdf8',
+        borderColor: '#2563EB',
+        backgroundColor: 'rgba(37, 99, 235, 0.20)',
+        fill: true,
         borderWidth: 3.5,
         pointRadius: 4,
         pointHoverRadius: 6,
-        tension: 0.35,
+        tension: 0.40,
       },
       {
         label: 'NWP Model A (GFS)',
@@ -89,34 +90,34 @@ export default function ForecastCharts({
         borderDash: [5, 4],
         borderWidth: 1.8,
         pointRadius: 2,
-        tension: 0.25,
+        tension: 0.35,
       },
       {
         label: 'NWP Model B (ECMWF)',
         data: leadTimes.map((lt, i) => Math.round((baseTemp + Math.sin(i * 0.8) * 3 - 0.9) * 10) / 10),
-        borderColor: '#10b981',
+        borderColor: '#1E3A8A',
         borderDash: [4, 4],
         borderWidth: 1.8,
         pointRadius: 2,
-        tension: 0.25,
+        tension: 0.35,
       },
       {
         label: 'Ensemble Forecast',
         data: leadTimes.map((lt, i) => Math.round((baseTemp + Math.sin(i * 0.8) * 3 + 0.6) * 10) / 10),
-        borderColor: '#f59e0b',
+        borderColor: '#60A5FA',
         borderDash: [3, 3],
         borderWidth: 1.8,
         pointRadius: 2,
-        tension: 0.25,
+        tension: 0.35,
       },
       {
         label: 'AI/ML Forecast (GraphCast)',
         data: leadTimes.map((lt, i) => Math.round((baseTemp + Math.sin(i * 0.8) * 3 - 0.4) * 10) / 10),
-        borderColor: '#8b5cf6',
+        borderColor: '#38BDF8',
         borderDash: [2, 2],
         borderWidth: 1.8,
         pointRadius: 2,
-        tension: 0.25,
+        tension: 0.35,
       },
     ],
   }
@@ -131,8 +132,8 @@ export default function ForecastCharts({
       {
         label: '★ Hybrid Blended Rainfall',
         data: leadTimes.map((lt, i) => Math.max(0, Math.round((baseRain * Math.exp(-i * 0.12) + (i % 2 === 0 ? 12 : -6)) * 10) / 10)),
-        backgroundColor: 'rgba(56, 189, 248, 0.8)',
-        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(37, 99, 235, 0.85)',
+        borderColor: '#2563EB',
         borderWidth: 1.5,
         borderRadius: 4,
       },
@@ -147,16 +148,16 @@ export default function ForecastCharts({
       {
         label: 'NWP Model B (ECMWF)',
         data: leadTimes.map((lt, i) => Math.max(0, Math.round((baseRain * 0.92 * Math.exp(-i * 0.12) + (i % 2 === 0 ? 10 : -8)) * 10) / 10)),
-        backgroundColor: 'rgba(16, 185, 129, 0.45)',
-        borderColor: '#10b981',
+        backgroundColor: 'rgba(30, 58, 138, 0.45)',
+        borderColor: '#1E3A8A',
         borderWidth: 1,
         borderRadius: 4,
       },
       {
         label: 'AI/ML Forecast',
         data: leadTimes.map((lt, i) => Math.max(0, Math.round((baseRain * 0.96 * Math.exp(-i * 0.12) + (i % 2 === 0 ? 8 : -5)) * 10) / 10)),
-        backgroundColor: 'rgba(139, 92, 246, 0.45)',
-        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(56, 189, 248, 0.45)',
+        borderColor: '#38bdf8',
         borderWidth: 1,
         borderRadius: 4,
       },
@@ -173,12 +174,12 @@ export default function ForecastCharts({
       {
         label: '★ Hybrid Blended Wind Speed',
         data: leadTimes.map((lt, i) => Math.round((baseWind + Math.cos(i * 0.7) * 6) * 10) / 10),
-        borderColor: '#38bdf8',
-        backgroundColor: 'rgba(56, 189, 248, 0.15)',
+        borderColor: '#2563EB',
+        backgroundColor: 'rgba(37, 99, 235, 0.15)',
         fill: true,
         borderWidth: 3,
         pointRadius: 4,
-        tension: 0.3,
+        tension: 0.35,
         yAxisID: 'y',
       },
       {
@@ -188,27 +189,27 @@ export default function ForecastCharts({
         borderDash: [4, 4],
         borderWidth: 1.5,
         pointRadius: 2,
-        tension: 0.2,
+        tension: 0.3,
         yAxisID: 'y',
       },
       {
         label: 'NWP Model B Speed',
         data: leadTimes.map((lt, i) => Math.round((baseWind + Math.cos(i * 0.7) * 6 - 2.1) * 10) / 10),
-        borderColor: '#10b981',
+        borderColor: '#1E3A8A',
         borderDash: [4, 4],
         borderWidth: 1.5,
         pointRadius: 2,
-        tension: 0.2,
+        tension: 0.3,
         yAxisID: 'y',
       },
       {
         label: 'Yamartino Vector Direction (°)',
         data: leadTimes.map((lt, i) => Math.round((245 + Math.sin(i * 0.5) * 20) % 360)),
-        borderColor: '#f59e0b',
+        borderColor: '#1D4ED8',
         borderWidth: 2,
         pointRadius: 3,
         pointStyle: 'triangle',
-        tension: 0.2,
+        tension: 0.25,
         yAxisID: 'y1',
       },
     ],
@@ -221,34 +222,35 @@ export default function ForecastCharts({
       legend: {
         position: 'top',
         labels: {
-          color: '#cbd5e1',
+          color: '#243746',
           boxWidth: 12,
-          font: { size: 11 },
+          font: { size: 11, weight: '600' },
           filter: (item) => !item.text.includes('Bound'),
         },
       },
       tooltip: {
         mode: 'index',
         intersect: false,
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        titleColor: '#38bdf8',
-        bodyColor: '#f1f5f9',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: '#FFFFFF',
+        titleColor: '#294E6B',
+        bodyColor: '#243746',
+        borderColor: 'rgba(77, 145, 201, 0.3)',
         borderWidth: 1,
       },
     },
     scales: {
       x: {
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(77, 145, 201, 0.10)' },
+        ticks: { color: '#657886', font: { weight: '600' } },
       },
       y: {
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(77, 145, 201, 0.10)' },
+        ticks: { color: '#657886' },
         title: {
           display: true,
           text: activeTab === 'temp' ? 'Temperature (°C)' : activeTab === 'rain' ? 'Rainfall (mm / 24h)' : 'Wind Speed (km/h)',
-          color: '#94a3b8',
+          color: '#405565',
+          font: { weight: '700' },
         },
       },
       ...(activeTab === 'wind'
@@ -260,14 +262,14 @@ export default function ForecastCharts({
               max: 360,
               grid: { drawOnChartArea: false },
               ticks: {
-                color: '#f59e0b',
+                color: '#1D4ED8',
                 stepSize: 90,
                 callback: (val) => `${val}°`,
               },
               title: {
                 display: true,
                 text: 'Wind Direction (°)',
-                color: '#f59e0b',
+                color: '#1D4ED8',
               },
             },
           }
@@ -279,19 +281,20 @@ export default function ForecastCharts({
     <div className="glass-card" style={{ display: 'flex', flexDirection: 'column' }}>
       <div className="card-header" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
         <div className="card-title">
-          <Layers size={18} color="var(--accent-cyan)" />
+          <Layers size={18} color="var(--accent-blue)" />
           <span>Interactive Multi-Lead Forecast Meteograms</span>
         </div>
 
         {/* Variable Switcher Tabs */}
-        <div style={{ display: 'flex', background: '#0f172a', padding: '3px', borderRadius: '8px', gap: '4px' }}>
+        <div style={{ display: 'flex', background: '#EAF2F7', border: '1px solid rgba(77, 145, 201, 0.25)', padding: '3px', borderRadius: '8px', gap: '4px' }}>
           <button
             onClick={() => setActiveTab('temp')}
             style={{
-              background: activeTab === 'temp' ? 'var(--accent-blue)' : 'transparent',
-              color: activeTab === 'temp' ? '#fff' : '#94a3b8',
+              background: activeTab === 'temp' ? '#4D91C9' : 'transparent',
+              color: activeTab === 'temp' ? '#ffffff' : '#657886',
+              boxShadow: activeTab === 'temp' ? '0 1px 4px rgba(77, 145, 201, 0.3)' : 'none',
               border: 'none',
-              padding: '5px 10px',
+              padding: '5px 12px',
               fontSize: '0.75rem',
               borderRadius: '6px',
               cursor: 'pointer',
@@ -307,10 +310,11 @@ export default function ForecastCharts({
           <button
             onClick={() => setActiveTab('rain')}
             style={{
-              background: activeTab === 'rain' ? 'var(--accent-blue)' : 'transparent',
-              color: activeTab === 'rain' ? '#fff' : '#94a3b8',
+              background: activeTab === 'rain' ? '#4D91C9' : 'transparent',
+              color: activeTab === 'rain' ? '#ffffff' : '#657886',
+              boxShadow: activeTab === 'rain' ? '0 1px 4px rgba(77, 145, 201, 0.3)' : 'none',
               border: 'none',
-              padding: '5px 10px',
+              padding: '5px 12px',
               fontSize: '0.75rem',
               borderRadius: '6px',
               cursor: 'pointer',
@@ -326,10 +330,11 @@ export default function ForecastCharts({
           <button
             onClick={() => setActiveTab('wind')}
             style={{
-              background: activeTab === 'wind' ? 'var(--accent-blue)' : 'transparent',
-              color: activeTab === 'wind' ? '#fff' : '#94a3b8',
+              background: activeTab === 'wind' ? '#4D91C9' : 'transparent',
+              color: activeTab === 'wind' ? '#ffffff' : '#657886',
+              boxShadow: activeTab === 'wind' ? '0 1px 4px rgba(77, 145, 201, 0.3)' : 'none',
               border: 'none',
-              padding: '5px 10px',
+              padding: '5px 12px',
               fontSize: '0.75rem',
               borderRadius: '6px',
               cursor: 'pointer',
@@ -357,9 +362,9 @@ export default function ForecastCharts({
           style={{
             marginTop: '0.85rem',
             padding: '0.6rem 0.85rem',
-            background: 'rgba(30, 41, 59, 0.6)',
+            background: 'rgba(234, 242, 247, 0.65)',
             borderRadius: '6px',
-            border: '1px solid var(--border-color)',
+            border: '1px solid rgba(77, 145, 201, 0.20)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -367,20 +372,20 @@ export default function ForecastCharts({
             gap: '8px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', color: '#cbd5e1' }}>
-            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#38bdf8' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', color: '#405565' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#4D91C9' }} />
             <span>
               <strong>Hybrid Consensus:</strong> Synthesizes physical NWP & deep learning emulators with dynamic uncertainty intervals.
             </span>
           </div>
           {activeTab === 'rain' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: '#f59e0b' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: '#b45309' }}>
               <AlertTriangle size={13} />
               <span>IMD Thresholds: Heavy ≥ 64.5 mm · Very Heavy ≥ 115.5 mm</span>
             </div>
           )}
           {activeTab === 'wind' && (
-            <div style={{ fontSize: '0.72rem', color: '#a7f3d0' }}>
+            <div style={{ fontSize: '0.72rem', color: '#047857' }}>
               Trigonometric Yamartino Vector Consensus (0° - 360°)
             </div>
           )}

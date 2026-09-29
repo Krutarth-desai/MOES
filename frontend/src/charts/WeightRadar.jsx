@@ -14,10 +14,10 @@ import { PieChart, Info, ShieldCheck, MapPin } from 'lucide-react'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const MODEL_CONFIGS = [
-  { id: 'NWP Model A', label: 'NWP Model A', color: '#0284c7' },
-  { id: 'NWP Model B', label: 'NWP Model B', color: '#10b981' },
-  { id: 'Ensemble Forecast', label: 'Ensemble', color: '#f59e0b' },
-  { id: 'AI/ML Forecast', label: 'AI/ML', color: '#8b5cf6' },
+  { id: 'NWP Model A', label: 'NWP Model A', color: '#2563EB' },
+  { id: 'NWP Model B', label: 'NWP Model B', color: '#1E3A8A' },
+  { id: 'Ensemble Forecast', label: 'Ensemble', color: '#0284C7' },
+  { id: 'AI/ML Forecast', label: 'AI/ML', color: '#38BDF8' },
 ]
 
 export default function WeightRadar({ weightsData, weightGridData }) {
@@ -82,7 +82,7 @@ export default function WeightRadar({ weightsData, weightGridData }) {
     <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
       <div className="card-header" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
         <div className="card-title">
-          <PieChart size={18} color="#f59e0b" />
+          <PieChart size={18} color="#2563EB" />
           <span>Regional Model Reliability & Weight Breakdown</span>
         </div>
         <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
