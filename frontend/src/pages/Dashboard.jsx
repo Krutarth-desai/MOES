@@ -39,7 +39,7 @@ import DemoModeSection from '../components/DemoModeSection'
 import apiService from '../services/api'
 import { WeatherVariables, VariableMetadata } from '../types'
 
-export default function Dashboard() {
+export default function Dashboard({ user, profile, onLogout }) {
   // Navigation & Projector state
   const [activeSection, setActiveSection] = useState('overview')
   const [projectorMode, setProjectorMode] = useState(false)
@@ -290,6 +290,9 @@ export default function Dashboard() {
         onSectionClick={handleSectionClick}
         onRunPipeline={handleRunForecastPipeline}
         isRunningPipeline={isRunningPipeline}
+        user={user}
+        profile={profile}
+        onLogout={onLogout}
       />
 
       <main className="dashboard-container">

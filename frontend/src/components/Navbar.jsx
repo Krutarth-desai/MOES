@@ -15,6 +15,8 @@ import {
   History,
   FileText,
   Sparkles,
+  LogOut,
+  User,
 } from 'lucide-react'
 import { WeatherVariables, VariableMetadata } from '../types'
 
@@ -33,6 +35,9 @@ export default function Navbar({
   onSectionClick,
   onRunPipeline,
   isRunningPipeline,
+  user,
+  profile,
+  onLogout,
 }) {
   const navSections = [
     { id: 'demo-mode', label: '★ SIH Demo Mode', icon: Sparkles },
@@ -309,6 +314,91 @@ export default function Navbar({
             <Monitor size={13} />
             <span>{projectorMode ? 'Projector Mode: ON' : 'Projector Mode'}</span>
           </button>
+
+          {/* User Profile & Logout Pill */}
+          {(user || profile) && (
+            <div
+              className="control-pill"
+              style={{
+                background: 'rgba(15, 23, 42, 0.95)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                padding: '4px 8px 4px 6px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginLeft: '4px',
+              }}
+            >
+              {profile?.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture ? (
+                <img
+                  src={profile?.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture}
+                  alt="User Avatar"
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '1px solid #38bdf8',
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #0284c7, #38bdf8)',
+                    color: '#fff',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {(profile?.full_name || user?.email || 'U').charAt(0).toUpperCase()}
+                </div>
+              )}
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: '#f8fafc',
+                  maxWidth: '120px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={profile?.full_name || user?.email}
+              >
+                {profile?.full_name || user?.email?.split('@')[0]}
+              </span>
+              {onLogout && (
+                <button
+                  onClick={onLogout}
+                  title="Sign Out of MOES System"
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    color: '#ef4444',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    borderRadius: '6px',
+                    padding: '3px 8px',
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <LogOut size={12} />
+                  <span>Logout</span>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
