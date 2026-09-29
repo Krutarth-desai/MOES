@@ -41,8 +41,8 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
       {
         label: '★ Hybrid Blended Error',
         data: testPoints.map((p) => Math.round((p.hybrid - p.obs) * 10) / 10),
-        borderColor: '#38bdf8',
-        backgroundColor: '#38bdf8',
+        borderColor: '#4D91C9',
+        backgroundColor: '#4D91C9',
         borderWidth: 3,
         pointRadius: 4,
         tension: 0.2,
@@ -50,7 +50,7 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
       {
         label: 'NWP Model A Error (GFS)',
         data: testPoints.map((p) => Math.round((p.gfs - p.obs) * 10) / 10),
-        borderColor: '#0284c7',
+        borderColor: '#2563EB',
         borderDash: [4, 4],
         borderWidth: 1.5,
         pointRadius: 2,
@@ -59,7 +59,7 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
       {
         label: 'NWP Model B Error (ECMWF)',
         data: testPoints.map((p) => Math.round((p.ecmwf - p.obs) * 10) / 10),
-        borderColor: '#10b981',
+        borderColor: '#1E3A8A',
         borderDash: [4, 4],
         borderWidth: 1.5,
         pointRadius: 2,
@@ -68,7 +68,7 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
       {
         label: 'AI/ML Forecast Error',
         data: testPoints.map((p) => Math.round((p.ai - p.obs) * 10) / 10),
-        borderColor: '#8b5cf6',
+        borderColor: '#38BDF8',
         borderDash: [3, 3],
         borderWidth: 1.5,
         pointRadius: 2,
@@ -84,19 +84,19 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
       {
         label: '★ Hybrid Blended Forecast',
         data: [0, 4, 38, 46, 11, 1], // Centered around 0 error
-        backgroundColor: '#38bdf8',
+        backgroundColor: '#4D91C9',
         borderRadius: 4,
       },
       {
         label: 'Best Baseline Model (NWP B)',
         data: [3, 14, 28, 33, 16, 6], // Wider spread
-        backgroundColor: 'rgba(16, 185, 129, 0.45)',
+        backgroundColor: 'rgba(5, 150, 105, 0.55)',
         borderRadius: 4,
       },
       {
         label: 'NWP Model A (GFS)',
         data: [1, 5, 18, 30, 26, 20], // Positive bias / overprediction
-        backgroundColor: 'rgba(2, 132, 199, 0.35)',
+        backgroundColor: 'rgba(37, 99, 235, 0.45)',
         borderRadius: 4,
       },
     ],
@@ -108,26 +108,29 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
     plugins: {
       legend: {
         position: 'top',
-        labels: { color: '#cbd5e1', font: { size: 10 }, boxWidth: 12 },
+        labels: { color: '#243746', font: { size: 10, weight: '600' }, boxWidth: 12 },
       },
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        titleColor: '#38bdf8',
-        bodyColor: '#f1f5f9',
+        backgroundColor: '#FFFFFF',
+        titleColor: '#294E6B',
+        bodyColor: '#243746',
+        borderColor: 'rgba(77, 145, 201, 0.3)',
+        borderWidth: 1,
       },
     },
     scales: {
       x: {
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(77, 145, 201, 0.12)' },
+        ticks: { color: '#657886', font: { weight: 600 } },
       },
       y: {
-        grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(77, 145, 201, 0.12)' },
+        ticks: { color: '#657886' },
         title: {
           display: true,
           text: viewMode === 'residuals' ? 'Residual Error (Forecast - Observation)' : 'Percentage of Cases (%)',
-          color: '#94a3b8',
+          color: '#405565',
+          font: { weight: 600 },
         },
       },
     },
@@ -137,19 +140,20 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
     <div className="glass-card" style={{ display: 'flex', flexDirection: 'column' }}>
       <div className="card-header" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
         <div className="card-title">
-          <Activity size={18} color="#f43f5e" />
+          <Activity size={18} color="#2563EB" />
           <span>Out-of-Sample Historical Residuals & Verification Errors</span>
         </div>
 
         {/* View Mode Toggle */}
-        <div style={{ display: 'flex', background: '#0f172a', padding: '3px', borderRadius: '8px', gap: '3px' }}>
+        <div style={{ display: 'flex', background: '#EAF2F7', border: '1px solid rgba(77, 145, 201, 0.25)', padding: '3px', borderRadius: '8px', gap: '3px' }}>
           <button
             onClick={() => setViewMode('residuals')}
             style={{
-              background: viewMode === 'residuals' ? 'var(--accent-blue)' : 'transparent',
-              color: viewMode === 'residuals' ? '#fff' : '#94a3b8',
+              background: viewMode === 'residuals' ? '#4D91C9' : 'transparent',
+              color: viewMode === 'residuals' ? '#fff' : '#657886',
+              boxShadow: viewMode === 'residuals' ? '0 1px 3px rgba(77, 145, 201, 0.3)' : 'none',
               border: 'none',
-              padding: '4px 8px',
+              padding: '4px 10px',
               fontSize: '0.72rem',
               borderRadius: '5px',
               cursor: 'pointer',
@@ -161,10 +165,11 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
           <button
             onClick={() => setViewMode('distribution')}
             style={{
-              background: viewMode === 'distribution' ? 'var(--accent-blue)' : 'transparent',
-              color: viewMode === 'distribution' ? '#fff' : '#94a3b8',
+              background: viewMode === 'distribution' ? '#4D91C9' : 'transparent',
+              color: viewMode === 'distribution' ? '#fff' : '#657886',
+              boxShadow: viewMode === 'distribution' ? '0 1px 3px rgba(77, 145, 201, 0.3)' : 'none',
               border: 'none',
-              padding: '4px 8px',
+              padding: '4px 10px',
               fontSize: '0.72rem',
               borderRadius: '5px',
               cursor: 'pointer',
@@ -190,17 +195,17 @@ export default function HistoricalErrorsChart({ backtestData, variable = 'rainfa
           style={{
             marginTop: '0.75rem',
             padding: '8px 12px',
-            background: 'rgba(30, 41, 59, 0.5)',
+            background: 'rgba(234, 242, 247, 0.65)',
             borderRadius: '6px',
-            border: '1px solid var(--border-color)',
+            border: '1px solid rgba(77, 145, 201, 0.20)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             fontSize: '0.72rem',
-            color: '#cbd5e1',
+            color: '#405565',
           }}
         >
-          <ShieldCheck size={16} color="#10b981" style={{ flexShrink: 0 }} />
+          <ShieldCheck size={16} color="#059669" style={{ flexShrink: 0 }} />
           <span>
             <strong>Error Minimization:</strong> The Hybrid Blended forecast achieves a near-zero mean signed bias (-0.05) and reduces peak error variance by 24% compared to the strongest single baseline model (NWP Model B).
           </span>

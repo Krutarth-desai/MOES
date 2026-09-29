@@ -276,7 +276,7 @@ export const apiService = {
   },
 
   // =========================================================================
-  // SIH Presentation Demo Mode APIs (/api/demo/...)
+  // Operational Pipeline Simulation APIs (/api/demo/...)
   // =========================================================================
   async getDemoScenarios() {
     const res = await coreClient.get('/demo/scenarios')

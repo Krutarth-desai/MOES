@@ -80,11 +80,11 @@ export default function SkillChart({ metricsData }) {
     <div className="glass-card">
       <div className="card-header">
         <div className="card-title">
-          <Award size={18} color="#10b981" />
+          <Award size={18} color="#2563EB" />
           <span>Verification Scorecard (Ground Truth Benchmark)</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span className="badge-green">
+          <span style={{ fontSize: '0.82rem', padding: '3px 8px', borderRadius: '5px', background: 'rgba(37, 99, 235, 0.12)', color: '#2563EB', border: '1px solid rgba(37, 99, 235, 0.35)', fontWeight: 700 }}>
             +{metricsData.mae_improvement_pct}% Skill Gain
           </span>
         </div>
@@ -93,9 +93,9 @@ export default function SkillChart({ metricsData }) {
         <div style={{ height: '240px' }}>
           <Bar data={data} options={options} />
         </div>
-        <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'rgba(16, 185, 129, 0.08)', borderRadius: '6px', border: '1px solid rgba(16, 185, 129, 0.2)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <CheckCircle2 size={16} color="#10b981" />
-          <span style={{ fontSize: '0.78rem', color: '#a7f3d0' }}>
+        <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'rgba(37, 99, 235, 0.08)', borderRadius: '6px', border: '1px solid rgba(37, 99, 235, 0.25)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <CheckCircle2 size={16} color="#2563EB" />
+          <span style={{ fontSize: '0.78rem', color: '#1E3A8A' }}>
             <strong>Proven Superiority:</strong> The Adaptive Hybrid model achieves the lowest MAE ({metricsData.blended_model.mae}) and highest correlation ({metricsData.blended_model.correlation}) by selectively filtering out individual model systematic biases.
           </span>
         </div>

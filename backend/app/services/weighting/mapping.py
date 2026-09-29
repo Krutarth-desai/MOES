@@ -63,14 +63,14 @@ DEFAULT_MODELS = [
 
 # Standard model color map for geographic visualization
 MODEL_COLORS: Dict[str, str] = {
-    "NWP Model A": "#0284c7",       # Ocean / Sky Blue
-    "NWP Model B": "#10b981",       # Emerald Green
-    "Ensemble Forecast": "#f59e0b",  # Amber / Gold
-    "AI/ML Forecast": "#8b5cf6",     # Deep Violet / Purple
-    "gfs": "#0284c7",
-    "ecmwf": "#10b981",
-    "graphcast": "#8b5cf6",
-    "pangu": "#ec4899",
+    "NWP Model A": "#2563EB",       # Royal Blue (GFS / Physical NWP)
+    "NWP Model B": "#10B981",       # Emerald Green (ECMWF / Physical)
+    "Ensemble Forecast": "#F59E0B",  # Vibrant Amber / Gold (GEFS / EPS)
+    "AI/ML Forecast": "#8B5CF6",     # Neon Violet / Purple (GraphCast / Neural)
+    "gfs": "#2563EB",
+    "ecmwf": "#10B981",
+    "graphcast": "#8B5CF6",
+    "pangu": "#EC4899",
 }
 
 # Standard Indian meteorological sub-regions
