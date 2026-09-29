@@ -14,7 +14,7 @@ import {
   AlertTriangle,
   History,
   FileText,
-  Sparkles,
+  Play,
 } from 'lucide-react'
 import { WeatherVariables, VariableMetadata } from '../types'
 
@@ -35,7 +35,7 @@ export default function Navbar({
   isRunningPipeline,
 }) {
   const navSections = [
-    { id: 'demo-mode', label: '★ Pipeline Simulation', icon: Sparkles },
+    { id: 'demo-mode', label: '★ Pipeline Simulation', icon: Play },
     { id: 'overview', label: '1. Overview', icon: Activity },
     { id: 'live-forecast', label: '2. Live Forecast', icon: CloudLightning },
     { id: 'comparison', label: '3. Comparison', icon: BarChart3 },
@@ -283,7 +283,7 @@ export default function Navbar({
               transition: 'all 0.2s ease',
             }}
           >
-            <Sparkles size={13} />
+            <Play size={13} />
             <span>Simulation</span>
           </button>
 

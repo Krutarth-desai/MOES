@@ -15,7 +15,7 @@ import {
   Wind,
   ShieldAlert,
   MapPin,
-  Sparkles,
+
   Info,
   Check,
   TrendingDown,
@@ -233,7 +233,7 @@ const FALLBACK_MONSOON = {
   total_execution_time_ms: 208.0,
 }
 
-export default function DemoModeSection() {
+export default function DemoModeSection({ activeSubOption }) {
   const [selectedScenarioId, setSelectedScenarioId] = useState('monsoon_convective_storm')
   const [availableScenarios, setAvailableScenarios] = useState([])
   const [scenarioData, setScenarioData] = useState(FALLBACK_MONSOON)
@@ -281,6 +281,17 @@ export default function DemoModeSection() {
       }
     }
   }
+
+  // Watch for activeSubOption changes from the top nav
+  useEffect(() => {
+    if (activeSubOption === 'scenario1' && selectedScenarioId !== 'monsoon_convective_storm') {
+      setSelectedScenarioId('monsoon_convective_storm')
+      triggerRunScenario('monsoon_convective_storm')
+    } else if (activeSubOption === 'scenario2' && selectedScenarioId !== 'severe_heatwave_plains') {
+      setSelectedScenarioId('severe_heatwave_plains')
+      triggerRunScenario('severe_heatwave_plains')
+    }
+  }, [activeSubOption])
 
   // 3. Sequential Stage Stepper & Auto-Play timer
   useEffect(() => {
@@ -376,9 +387,7 @@ export default function DemoModeSection() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           gap: '16px',
           marginBottom: '1.5rem',
           borderBottom: '1px solid rgba(56, 145, 218, 0.16)',
@@ -436,7 +445,6 @@ export default function DemoModeSection() {
             }}
           >
             <span style={{ color: '#0F2942' }}>End-to-End Operational Forecast Blending Pipeline</span>
-            <Sparkles size={20} color="#0284c7" />
           </h2>
           <p style={{ fontSize: '0.82rem', color: '#475569', maxWidth: '850px', lineHeight: 1.4 }}>
             Demonstrates real-time multi-model ingestion, thermodynamic regime diagnosis, empirical skill retrieval,
@@ -446,9 +454,9 @@ export default function DemoModeSection() {
         </div>
 
         {/* Action Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', flexWrap: 'wrap', marginTop: '8px' }}>
           {/* Scenario Selector */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: '1 1 300px' }}>
             <label style={{ fontSize: '0.68rem', color: '#475569', fontWeight: 700 }}>SELECT SCENARIO:</label>
             <select
               value={selectedScenarioId}
@@ -461,12 +469,13 @@ export default function DemoModeSection() {
                 color: '#0F2942',
                 border: '1px solid #CBD5E1',
                 borderRadius: '8px',
-                padding: '7px 12px',
+                padding: '9px 12px',
                 fontSize: '0.78rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 outline: 'none',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                width: '100%',
               }}
             >
               <option value="monsoon_convective_storm">
@@ -479,7 +488,7 @@ export default function DemoModeSection() {
           </div>
 
           {/* Speed Selector */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: '1 1 200px' }}>
             <label style={{ fontSize: '0.68rem', color: '#475569', fontWeight: 700 }}>PACING MODE:</label>
             <select
               value={playbackSpeed}
@@ -489,12 +498,13 @@ export default function DemoModeSection() {
                 color: '#0F2942',
                 border: '1px solid #CBD5E1',
                 borderRadius: '8px',
-                padding: '7px 10px',
+                padding: '9px 12px',
                 fontSize: '0.78rem',
                 fontWeight: 600,
                 cursor: 'pointer',
                 outline: 'none',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                width: '100%',
               }}
             >
               <option value="presentation">Auditorium Demo (~3.5 Min)</option>
@@ -508,13 +518,12 @@ export default function DemoModeSection() {
             onClick={() => triggerRunScenario(selectedScenarioId)}
             disabled={isRunning && !isPaused}
             style={{
-              marginTop: '16px',
               background: isRunning && !isPaused
                 ? 'rgba(56, 189, 248, 0.2)'
                 : 'linear-gradient(135deg, #0284c7, #2563eb)',
               color: '#fff',
               border: 'none',
-              padding: '8px 18px',
+              padding: '9px 24px',
               borderRadius: '8px',
               fontSize: '0.85rem',
               fontWeight: 800,
@@ -524,6 +533,7 @@ export default function DemoModeSection() {
               gap: '8px',
               boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
               transition: 'all 0.2s ease',
+              height: '38px',
             }}
           >
             {isRunning && !isPaused ? (
@@ -545,11 +555,10 @@ export default function DemoModeSection() {
               onClick={() => setIsPaused(!isPaused)}
               title={isPaused ? 'Resume Simulation' : 'Pause at current stage for technical inspection'}
               style={{
-                marginTop: '16px',
                 background: isPaused ? '#0284c7' : '#F1F5F9',
                 color: isPaused ? '#ffffff' : '#0F2942',
                 border: '1px solid #CBD5E1',
-                padding: '8px 12px',
+                padding: '9px 16px',
                 borderRadius: '8px',
                 fontSize: '0.78rem',
                 fontWeight: 700,
@@ -557,6 +566,7 @@ export default function DemoModeSection() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                height: '38px',
               }}
             >
               {isPaused ? <Play size={13} fill="#ffffff" /> : <Pause size={13} />}
@@ -1104,7 +1114,7 @@ export default function DemoModeSection() {
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}.png"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 maxZoom={19}
               />
 
@@ -1157,83 +1167,7 @@ export default function DemoModeSection() {
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* CARD 4: MACHINE-READABLE EXPLAINABILITY AUDIT (Requirement 9)            */}
-      {/* ========================================================================= */}
-      <div
-        style={{
-          background: '#FFFFFF',
-          border: '1px solid #E2E8F0',
-          borderRadius: '12px',
-          padding: '1.2rem',
-          marginTop: '16px',
-          boxShadow: '0 2px 10px rgba(15, 41, 77, 0.04)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Sparkles size={16} color="#0284c7" />
-          <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
-            9. Machine-Readable Explainability Audit: Why Did Model Weights Adapt?
-          </h3>
-        </div>
 
-        <div
-          style={{
-            background: '#F8FAFC',
-            border: '1px solid #E2E8F0',
-            borderRadius: '8px',
-            padding: '10px 14px',
-            fontSize: '0.82rem',
-            color: '#1E293B',
-            lineHeight: 1.5,
-            borderLeft: '4px solid #0284c7',
-            marginBottom: '12px',
-          }}
-        >
-          {scenarioData?.explanation_text}
-        </div>
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '8px',
-          }}
-        >
-          {Object.entries(scenarioData?.weighting_rationale || {}).map(([model, rationale]) => (
-            <div
-              key={model}
-              style={{
-                background: '#F8FAFC',
-                border: '1px solid #E2E8F0',
-                borderRadius: '6px',
-                padding: '8px 10px',
-                fontSize: '0.72rem',
-              }}
-            >
-              <strong style={{ color: '#0284c7' }}>{model}: </strong>
-              <span style={{ color: '#334155' }}>{rationale}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Verification Guarantee */}
-        <div
-          style={{
-            marginTop: '10px',
-            fontSize: '0.68rem',
-            color: '#64748B',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          <ShieldAlert size={12} color="#0284c7" />
-          <span>
-            {scenarioData?.skill_verification_notice} Backtest evaluated on out-of-sample holdout test partition without data leakage.
-          </span>
-        </div>
-      </div>
     </section>
   )
 }

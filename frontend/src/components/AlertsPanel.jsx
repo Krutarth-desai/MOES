@@ -6,7 +6,7 @@ import {
   Clock,
   Gauge,
   Sliders,
-  Sparkles,
+  Activity,
   Info,
   MapPin,
   TrendingUp,
@@ -121,7 +121,7 @@ export default function AlertsPanel({ alerts = [], leadTimeHours = 24 }) {
               gap: '4px',
             }}
           >
-            <Sparkles size={12} />
+            <Activity size={12} />
             Test Scenarios
           </button>
           <button

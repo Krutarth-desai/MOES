@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   MapPin,
   Calendar,
-  Sparkles,
+  Activity,
 } from 'lucide-react'
 
 export default function AuraMetHeroWeather({
@@ -96,7 +96,7 @@ export default function AuraMetHeroWeather({
         {/* Center / Right: High-Priority Metric Pill */}
         <div className="auramet-hero-variable-pill">
           <div className="auramet-variable-title">
-            <Sparkles size={14} />
+            <Activity size={14} />
             <span>Primary Blended Output ({variable.toUpperCase()})</span>
           </div>
           <div className="auramet-variable-value">

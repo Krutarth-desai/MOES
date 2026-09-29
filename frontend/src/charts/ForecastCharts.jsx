@@ -357,39 +357,7 @@ export default function ForecastCharts({
           {activeTab === 'wind' && <Line data={windSeries} options={commonOptions} />}
         </div>
 
-        {/* Informative Guidance Bar */}
-        <div
-          style={{
-            marginTop: '0.85rem',
-            padding: '0.6rem 0.85rem',
-            background: 'rgba(234, 242, 247, 0.65)',
-            borderRadius: '6px',
-            border: '1px solid rgba(77, 145, 201, 0.20)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '8px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', color: '#405565' }}>
-            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#4D91C9' }} />
-            <span>
-              <strong>Hybrid Consensus:</strong> Synthesizes physical NWP & deep learning emulators with dynamic uncertainty intervals.
-            </span>
-          </div>
-          {activeTab === 'rain' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: '#b45309' }}>
-              <AlertTriangle size={13} />
-              <span>IMD Thresholds: Heavy ≥ 64.5 mm · Very Heavy ≥ 115.5 mm</span>
-            </div>
-          )}
-          {activeTab === 'wind' && (
-            <div style={{ fontSize: '0.72rem', color: '#047857' }}>
-              Trigonometric Yamartino Vector Consensus (0° - 360°)
-            </div>
-          )}
-        </div>
+
       </div>
     </div>
   )

@@ -1,16 +1,12 @@
 import React from 'react'
 import {
-  Menu,
   Activity,
   Sliders,
   CloudLightning,
   Play,
   RotateCw,
-  Monitor,
   MapPin,
-  ChevronRight,
   Layers,
-  Sparkles,
 } from 'lucide-react'
 import { WeatherVariables, VariableMetadata } from '../types'
 
@@ -90,52 +86,102 @@ export default function TopHeader({
   onRunPipeline,
   isRunningPipeline,
   onOpenMobileSidebar,
+  sidebarCollapsed,
 }) {
   const currentSubOptions = SUB_OPTIONS_MAP[activeSection] || []
   const sectionTitle = SECTION_LABELS[activeSection] || 'Overview'
 
   return (
     <header className="top-header-wrapper">
-      {/* Upper Control Bar: Global Telemetry & Filters */}
-      <div className="top-header-controls-bar">
-        {/* Left: Mobile Menu Trigger & Section Title Crumb */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button
-            onClick={onOpenMobileSidebar}
-            className="mobile-menu-btn"
-            title="Open navigation menu"
-            aria-label="Open navigation menu"
-          >
-            <Menu size={20} />
-          </button>
+      <style>{`
+        .th-grid-container {
+          display: grid;
+          width: 100%;
+          gap: 12px;
+          align-items: center;
+          /* Desktop layout: 3 main column areas */
+          grid-template-columns: auto 1fr auto;
+          grid-template-areas: 
+            "brand spacer top-controls"
+            "brand spacer bottom-controls";
+        }
+        
+        .th-brand { grid-area: brand; display: flex; flex-direction: column; gap: 2px; padding-left: 4px; }
+        .th-spacer { grid-area: spacer; }
+        
+        /* Desktop Rows */
+        .th-top-controls {
+          grid-area: top-controls;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          justify-content: flex-end;
+        }
+        .th-bottom-controls {
+          grid-area: bottom-controls;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          justify-content: flex-end;
+        }
 
-          <div className="header-breadcrumbs">
-            <span className="crumb-system">MoES / IMD</span>
-            <ChevronRight size={13} color="#64748b" />
-            <span className="crumb-section">{sectionTitle}</span>
-          </div>
+        /* Mobile/Collapsed Layout (width < 1100px) */
+        @media (max-width: 1100px) {
+          .th-grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+          }
+          .th-brand {
+            margin-right: auto;
+          }
+          .th-top-controls, .th-bottom-controls {
+            display: contents; /* Flattens them so their children participate in the main flex container */
+          }
+          /* Control the order on mobile to match user request */
+          .th-item-mumbai { order: 1; }
+          .th-item-precip { order: 2; }
+          .th-item-horizon { order: 3; }
+          .th-item-regime { order: 4; }
+          .th-item-execute { order: 5; }
+          .th-item-operational { order: 6; }
+        }
+      `}</style>
+      <div className="top-header-main-content th-grid-container">
+        
+        <div className="th-brand">
+            <div className="gradient-brand-text" style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: '2rem',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em',
+            }}>AtmoCast</div>
+            <div style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: '0.7rem',
+              color: '#64748B',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              marginTop: '2px',
+            }}>Forecast Blending System</div>
         </div>
+        
+        <div className="th-spacer"></div>
 
-        {/* Right: Global Operational Filters & Triggers */}
-        <div className="header-controls">
-          {/* Active Regime Pill */}
+        {/* TOP ROW CONTROLS (Desktop) */}
+        <div className="th-top-controls">
           {activeRegime && (
-            <div
-              className="control-pill regime-pill"
-              title={activeRegime.synoptic_summary || activeRegime.atmospheric_situation}
-            >
-              <Activity size={13} color="#2563EB" />
-              <span style={{ fontSize: '0.74rem', color: '#64748B' }}>Regime:</span>
-              <strong style={{ fontSize: '0.78rem', color: '#1E3A8A' }}>
-                {activeRegime.regime_name || activeRegime.diagnosed_regime}
-              </strong>
+            <div className="control-pill regime-pill th-item-regime" title={activeRegime.synoptic_summary || activeRegime.atmospheric_situation}>
+              <Activity size={16} color="#3B82F6" />
+              <span style={{ color: '#64748B' }}>Regime:</span>
+              <strong style={{ color: '#0F172A' }}>{activeRegime.regime_name || activeRegime.diagnosed_regime}</strong>
             </div>
           )}
-
-          {/* Station / Location Filter */}
-          <div className="control-pill">
-            <MapPin size={13} color="#2563EB" />
-            <span style={{ fontSize: '0.74rem', color: '#64748B' }}>Station:</span>
+          
+          <div className="control-pill station-pill th-item-mumbai">
+            <MapPin size={16} color="#3B82F6" />
             <select
               className="control-select"
               value={selectedStation?.name || ''}
@@ -146,16 +192,17 @@ export default function TopHeader({
             >
               {stations.map((st) => (
                 <option key={st.name} value={st.name}>
-                  {st.name} ({st.region_type?.split(' ')[0] || 'Zone'})
+                  {st.name}
                 </option>
               ))}
             </select>
           </div>
+        </div>
 
-          {/* Variable Selector */}
-          <div className="control-pill">
-            <Sliders size={13} color="#2563EB" />
-            <span style={{ fontSize: '0.74rem', color: '#64748B' }}>Variable:</span>
+        {/* BOTTOM ROW CONTROLS (Desktop) */}
+        <div className="th-bottom-controls">
+          <div className="control-pill th-item-precip">
+            <Sliders size={16} color="#3B82F6" />
             <select
               className="control-select"
               value={selectedVariable}
@@ -168,11 +215,9 @@ export default function TopHeader({
               ))}
             </select>
           </div>
-
-          {/* Lead Time Selector */}
-          <div className="control-pill">
-            <CloudLightning size={13} color="#0284C7" />
-            <span style={{ fontSize: '0.74rem', color: '#657886' }}>Lead:</span>
+          
+          <div className="control-pill th-item-horizon">
+            <CloudLightning size={16} color="#3B82F6" />
             <select
               className="control-select"
               value={selectedLeadTime}
@@ -189,35 +234,30 @@ export default function TopHeader({
             </select>
           </div>
 
-          {/* Run Pipeline Button */}
           <button
             onClick={onRunPipeline}
             disabled={isRunningPipeline}
-            className="action-btn-primary"
+            className="action-btn-primary th-item-execute"
+            style={{ padding: '8px 20px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px', height: '36px', transition: 'all 0.2s ease', boxShadow: '0 2px 4px rgba(37, 99, 235, 0.1)' }}
             title="Execute automated 12-step meteorological forecast blending pipeline"
           >
             {isRunningPipeline ? (
               <>
-                <RotateCw size={13} className="spin-animation" />
+                <RotateCw size={16} className="spin-animation" />
                 <span>Running...</span>
               </>
             ) : (
               <>
-                <Play size={13} />
+                <Play size={16} />
                 <span>Execute Blend</span>
               </>
             )}
           </button>
 
-          {/* Projector Mode Toggle */}
-          <button
-            onClick={onToggleProjectorMode}
-            className={`action-btn-secondary ${projectorMode ? 'active' : ''}`}
-            title="Toggle high-contrast large-format presentation mode for auditorium projectors"
-          >
-            <Monitor size={13} />
-            <span>{projectorMode ? 'Projector: ON' : 'Projector'}</span>
-          </button>
+          <div className="status-chip-small th-item-operational" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '0 10px', height: '32px', background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: '6px', fontSize: '11px', fontWeight: 700, color: '#047857', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            <span className="status-dot" style={{ width: '6px', height: '6px', background: '#10B981', borderRadius: '50%', boxShadow: '0 0 6px rgba(16, 185, 129, 0.5)' }}></span>
+            Operational
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layers, Award, Sparkles } from 'lucide-react'
+import { Layers, Award, Activity } from 'lucide-react'
 
 export default function StackedConsensusBar({
   weights = {
@@ -120,7 +120,7 @@ export default function StackedConsensusBar({
       {/* Model Spread Footer */}
       <div className="weather-sub-metrics">
         <div className="weather-sub-item">
-          <Sparkles size={13} color="#4D91C9" />
+          <Activity size={13} color="#4D91C9" />
           <span className="sub-label">Raw Model Spread:</span>
           <span className="sub-value">{minVal} – {maxVal} {unit} (Δ {rawSpread} {unit})</span>
         </div>

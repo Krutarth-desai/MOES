@@ -6,7 +6,7 @@ import {
   Map as MapIcon,
   AlertTriangle,
   History,
-  Sparkles,
+  Play,
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
@@ -85,16 +85,42 @@ export default function Sidebar({
         aria-label="Primary Navigation"
       >
         {/* Brand / System Identity */}
-        <div className="sidebar-brand">
-          <div className="sidebar-brand-badge">
-            MoES · IMD
-          </div>
-          {!collapsed && (
-            <div className="sidebar-brand-text">
-              <div className="sidebar-brand-title">Atmospheric AI</div>
-              <div className="sidebar-brand-sub">Forecast Blending System</div>
+        <div className="sidebar-brand" style={{ padding: collapsed ? '1rem 0' : '1rem 1.15rem', justifyContent: collapsed ? 'center' : 'flex-start' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: collapsed ? '0' : '14px', padding: '0' }}>
+            <div style={{
+              width: collapsed ? '44px' : '64px',
+              height: collapsed ? '44px' : '64px',
+              borderRadius: '50%',
+              overflow: 'hidden',
+              flexShrink: 0,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.4)', /* Only drop shadow, no CSS ring */
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              /* Premium Soft Ice/Sky gradient - extremely clean and complements orange/navy */
+              background: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)',
+              boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.3)'
+            }}>
+              <img
+                src="/atmocast-logo-t.png"
+                alt="AtmoCast Logo"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain', 
+                  transform: 'scale(1.15)', /* Slight zoom so the graphic feels powerful */
+                  filter: 'contrast(1.1) drop-shadow(0px 6px 12px rgba(0,0,0,0.5))', /* Sharpness + heavy dynamic shadow so it pops off the background */
+                  transition: 'all 0.3s ease',
+                }}
+              />
             </div>
-          )}
+            {!collapsed && (
+              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
+                <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#F1F5F9', letterSpacing: '0.02em', fontFamily: "'Outfit', sans-serif" }}>MoES · IMD</span>
+                <span style={{ fontSize: '0.62rem', color: '#38BDF8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: "'Outfit', sans-serif" }}>AI Forecast Engine</span>
+              </div>
+            )}
+          </div>
           {mobileOpen && (
             <button
               onClick={onCloseMobile}
@@ -149,9 +175,9 @@ export default function Sidebar({
                   <span
                     className="sidebar-nav-badge"
                     style={{
-                      backgroundColor: item.id === 'hazards' ? 'rgba(30, 58, 138, 0.12)' : 'rgba(37, 99, 235, 0.12)',
-                      color: item.id === 'hazards' ? '#1E3A8A' : '#1D4ED8',
-                      borderColor: item.id === 'hazards' ? 'rgba(30, 58, 138, 0.3)' : 'rgba(37, 99, 235, 0.3)',
+                      backgroundColor: item.id === 'hazards' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(59, 130, 246, 0.15)',
+                      color: item.id === 'hazards' ? '#F87171' : '#60A5FA',
+                      borderColor: item.id === 'hazards' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(59, 130, 246, 0.3)',
                     }}
                   >
                     {hazardBadge}
@@ -160,43 +186,42 @@ export default function Sidebar({
               </button>
             )
           })}
-        </nav>
+          {/* Divider */}
+          <div className="sidebar-divider" />
 
-        {/* Divider */}
-        <div className="sidebar-divider" />
-
-        {/* Operational 7-Stage Scenario Simulation Trigger */}
-        <div className="sidebar-demo-wrapper">
-          <button
-            onClick={() => {
-              onSectionSelect('demo-mode')
-              if (onCloseMobile) onCloseMobile()
-            }}
-            className={`sidebar-demo-btn ${activeSection === 'demo-mode' ? 'active' : ''}`}
-            title="Interactive 7-stage meteorological consensus simulation"
-          >
-            <Sparkles size={16} color="#2563EB" />
-            {!collapsed && (
-              <div style={{ textAlign: 'left', flex: 1 }}>
-                <div style={{ fontWeight: 800, fontSize: '0.78rem', color: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span>Pipeline Simulation</span>
-                  <span className="demo-live-dot" />
+          {/* Operational 7-Stage Scenario Simulation Trigger */}
+          <div className="sidebar-demo-wrapper">
+            <button
+              onClick={() => {
+                onSectionSelect('demo-mode')
+                if (onCloseMobile) onCloseMobile()
+              }}
+              className={`sidebar-demo-btn ${activeSection === 'demo-mode' ? 'active' : ''}`}
+              title="Interactive 7-stage meteorological consensus simulation"
+            >
+              <Play size={16} color="#2563EB" />
+              {!collapsed && (
+                <div style={{ textAlign: 'left', flex: 1 }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.78rem', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span>Pipeline Simulation</span>
+                    <span className="demo-live-dot" />
+                  </div>
+                  <div style={{ fontSize: '0.67rem', color: '#94A3B8' }}>7-Stage Blending Flow</div>
                 </div>
-                <div style={{ fontSize: '0.67rem', color: '#64748B' }}>7-Stage Blending Flow</div>
-              </div>
-            )}
-          </button>
-        </div>
+              )}
+            </button>
+          </div>
+        </nav>
 
         {/* Footer / Telemetry & Collapse Toggle */}
         <div className="sidebar-footer">
           {!collapsed && activeRegime && (
             <div className="sidebar-regime-box">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.7rem', color: '#64748B' }}>
-                <ShieldCheck size={12} color="#2563EB" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.7rem', color: '#94A3B8' }}>
+                <ShieldCheck size={12} color="#60A5FA" />
                 <span>Active Regime:</span>
               </div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1E3A8A', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#F8FAFC', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {activeRegime.regime_name || activeRegime.diagnosed_regime || 'Heavy Rain'}
               </div>
             </div>

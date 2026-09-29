@@ -18,7 +18,7 @@ import {
   Wind,
   CloudRain,
   TrendingUp,
-  Sparkles,
+
   MapPin,
   Server,
   Clock,
@@ -333,6 +333,7 @@ export default function Dashboard() {
       <div className="app-main-layout">
         {/* Top Header: Global Controls & Secondary Horizontal Sub-Navigation */}
         <TopHeader
+          sidebarCollapsed={sidebarCollapsed}
           activeSection={activeSection}
           activeSubOption={activeSubOption}
           onSubOptionSelect={handleSubOptionSelect}
@@ -454,7 +455,7 @@ export default function Dashboard() {
                 <span className="narrative-step-arrow">→</span>
 
                 <div className="narrative-step" style={{ color: '#1E3A8A', background: 'rgba(56, 189, 248, 0.15)', padding: '3px 8px', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
-                  <Sparkles size={13} color="#0284C7" />
+                  <Layers size={13} color="#0284C7" />
                   <span>3. Consensus Blended Forecast</span>
                 </div>
 
@@ -869,30 +870,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Yamartino Circular Vector Math for Wind Direction */}
-                <div id="forecast-wind" className="glass-card" style={{ padding: '1.25rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-                    <Compass size={18} color="#2563EB" />
-                    <h4 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1E3A8A', margin: 0 }}>
-                      Yamartino Vector Averaging for Wind Direction
-                    </h4>
-                  </div>
-                  <p style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '10px' }}>
-                    Arithmetic averaging of angles (e.g. 355° and 5°) yields 180° (South), which is physically catastrophic. The system executes true circular trigonometric averaging:
-                  </p>
 
-                  <div style={{ background: 'rgba(234, 242, 247, 0.7)', padding: '10px 12px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '0.75rem', color: '#1E3A8A', display: 'flex', flexDirection: 'column', gap: '4px', border: '1px solid rgba(37, 99, 235, 0.20)' }}>
-                    <div>ū = Σ (wᵢ · sin(θᵢ))</div>
-                    <div>v̄ = Σ (wᵢ · cos(θᵢ))</div>
-                    <div>θ_blended = atan2(ū, v̄)  (converted to 0°–360°)</div>
-                    <div>σ_θ = arcsin(ε) · [1 + (2/√3 - 1)·ε³]  (Yamartino dispersion)</div>
-                  </div>
-
-                  <div style={{ marginTop: '12px', fontSize: '0.75rem', color: '#2563EB', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                    <CheckCircle size={14} />
-                    <span>Fully compliant with WMO-No. 8 meteorological standards.</span>
-                  </div>
-                </div>
               </div>
 
               {/* Automated 12-Step Forecast Processing Pipeline Telemetry */}
@@ -1420,14 +1398,13 @@ export default function Dashboard() {
             <div id="demo-mode" className="dashboard-section">
               <div className="section-title-bar">
                 <div className="section-title">
-                  <Sparkles size={20} color="#2563EB" />
                   <span>OPERATIONAL PIPELINE SIMULATION</span>
                 </div>
                 <div className="section-badge">
                   SYNOPTIC WEATHER BLENDING WALKTHROUGH & BENCHMARK SIMULATION
                 </div>
               </div>
-              <DemoModeSection />
+              <DemoModeSection activeSubOption={activeSubOption} />
             </div>
           )}
         </main>
